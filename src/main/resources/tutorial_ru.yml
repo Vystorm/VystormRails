@@ -1,0 +1,17 @@
+title: 'Рельсы'
+permission: vystormrails.use
+pages:
+  - title: 'Ваша железная дорога'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails или меню (/vmenu → Мир) показывает карту сети со станциями и вашей вагонеткой.
+      Введите /rails help, чтобы увидеть все команды.
+  - title: 'Поездка к цели'
+    gif: "tutorial/travel.gif"
+    text: |
+      Сядьте в вагонетку и введите /rails dest STATION. Стрелки направят вас сами. Сохраняйте станции через /rails favorite.
+  - title: 'Блоки для вагонеток'
+    gif: "tutorial/blocks.gif"
+    text: |
+      Блоки под рельсами меняют поездку: золото и алмаз ускоряют, песок душ тормозит. /rails blocks покажет все.
+      Введите /rails help, чтобы увидеть все команды.

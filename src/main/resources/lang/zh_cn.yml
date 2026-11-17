@@ -1,0 +1,204 @@
+line-failed: "<yellow>列车线路已停止：线路或车站不可用。"
+line-usage: "<yellow>/rails line create ID 周期秒数 车站@偏移秒数|车站@偏移秒数；list、show ID、assign ID、stop、delete ID"
+line-saved: "<yellow>已保存线路 {line}。"
+line-exists: "<yellow>此世界中已存在该线路。"
+line-missing: "<yellow>找不到线路或车站。所有停靠点必须是已知车站。"
+line-stopped: "<yellow>已停止定时运行，并清除矿车目的地。"
+line-deleted: "<yellow>已删除线路 {line}。"
+line-assigned: "<yellow>已将矿车分配到 {line}。请将它推向第一站。"
+line-save-failed: "<yellow>无法保存或加载时刻表。现有数据已保留。"
+line-cart-denied: "<yellow>你需要 vystormrails.train 权限，并且必须拥有头车或有管理员权限来管理它。"
+line-preview: "<yellow>{line}：周期 {period}秒 — {stops}"
+line-board: "<yellow>{station} 的计划发车时间"
+line-departure: "<yellow>{line}：{seconds}秒后 → {next}"
+line-board-empty: "<yellow>此站没有定时运行的线路。"
+favorites-title: "<yellow>收藏车站"
+favorites-empty: "<yellow>暂无收藏。使用 /rails 收藏 车站名"
+favorites-missing: "<yellow>此世界中已无此已知车站。"
+favorites-remove: "<yellow>右键：移除收藏"
+favorites-added: "<yellow>已收藏 {station}。"
+favorites-exists: "<yellow>{station} 已在收藏中。"
+favorites-full: "<yellow>每个世界最多收藏 {limit} 个车站。使用 /rails 收藏夹 移除收藏。"
+favorites-removed: "<yellow>已移除收藏 {station}。"
+speedometer: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· 最高 {max}"
+speedometer-dest: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· 最高 {max} · <aqua>➜ {dest}"
+speedometer-dest-distance: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· 最高 {max} · <aqua>➜ {dest}</aqua> <yellow>{distance} 米"
+arrival-title: "<gold>🚉 {station}"
+arrival-subtitle: "<green>你已到达目的地"
+arrival-subtitle-cleared: "<green>你已到达目的地 <gray>– 目的地已清除"
+station-arrive: "<gold>🚉 <yellow>{station}</yellow> <gray>– {seconds} 秒后发车"
+station-countdown: "<gray><yellow>{seconds}</yellow> 秒后发车"
+station-unnamed: "车站"
+dest-set: "<green>目的地：<aqua>{dest}"
+dest-show: "<gray>你的目的地：<aqua>{dest}</aqua> <dark_gray>(/rails dest clear)"
+dest-none: "<gray>尚未设置目的地。使用 <yellow>/rails dest NAME</yellow> 设置；道岔会把你的矿车送往那里。"
+dest-cleared: "<gray>目的地已清除。"
+sign-header: "<dark_aqua>{header}"
+sign-created: "<green>铁轨告示牌已创建：<yellow>{action}"
+sign-invalid: "<red>未知的铁轨告示牌。第 2 行：station、speed、dest、switch、collect 或 freight。"
+sign-denied: "<red>你不能创建铁轨告示牌。"
+info: "<gold>矿车 <gray>– 速度 <yellow>{kmh}</yellow> km/h，最高 {max} km/h，自身最高速度 {speed}，目的地 <aqua>{dest}</aqua>，所有者 {owner}"
+no-cart: "<red>请乘坐或看向一辆矿车。"
+players-only: "<red>只有玩家才能执行此操作。"
+denied: "<red>你没有权限执行此操作。"
+reloaded: "<green>Vystorm Rails 已重新加载（{blocks} 个加速方块）。"
+menu-rails: "铁路网"
+menu-rails-desc: "<gray>目的地、车站和你的矿车地图"
+map-title: "铁路网"
+map-you: "<green>你"
+map-you-dest: "<gray>目的地：<aqua>{dest}"
+map-coords: "<dark_gray>{x}, {z}"
+map-rail: "<gray>铁轨"
+map-station: "<aqua>🚉 {station}"
+map-distance: "<gray>距离 {distance} 米"
+map-station-click: "<yellow>点击：设为你的目的地"
+map-station-dest: "<green>✔ 你的目的地"
+map-zoom: "<yellow>缩放：1 格 = {scale} 个方块"
+map-zoom-lore: "<gray>左键放大，右键缩小"
+map-north: "<yellow>▲ 北"
+map-south: "<yellow>▼ 南"
+map-west: "<yellow>◀ 西"
+map-east: "<yellow>▶ 东"
+map-center: "<yellow>以我为中心"
+map-stations: "<gray>已知 {count} 个车站，{rails} 段铁轨"
+map-center-clear: "<gray>右键：清除目的地 <aqua>{dest}"
+signal-red: "<red>⛔ 信号灯为停止 <gray>– 你的矿车正在等待"
+signal-occupied: "<red>⛔ 前方轨道被占用 <gray>– 你的矿车正在等待"
+blocks-header: "<gold>本服务器铁轨下方和旁边的方块："
+blocks-speed: "<gray>• 铁轨下方的 <yellow>{block}</yellow>：最高速度 {kmh} km/h"
+blocks-slide: "<gray>• <yellow>{block}</yellow>：矿车会滑出轨道（A/D 转向，S 刹车）"
+blocks-catch: "<gray>• <yellow>{block}</yellow>：接住脱轨的矿车"
+blocks-jump: "<gray>• 最后一段铁轨下方的 <yellow>{block}</yellow>：跳跃"
+blocks-bounce: "<gray>• 轨道尽头后方的 <yellow>{block}</yellow>：把矿车弹回"
+blocks-shift: "<gray>• 铁轨旁边的 <yellow>{block}</yellow>：移到对面的平行轨道"
+blocks-spin: "<gray>• 铁轨下方的 <yellow>{block}</yellow>：让矿车旋转并送回"
+blocks-elevator: "<gray>• 轨道尽头的 <yellow>{block}</yellow> 柱：电梯"
+blocks-signal: "<gray>• 铁轨下方的 <yellow>{block}</yellow>：信号灯 – 充能时或前方轨道被占用时矿车会等待"
+blocks-float: "<gray>• <yellow>{block}</yellow>：矿车像船一样浮在上面"
+train-selected: "<gray>已选中矿车。现在右键要连接的另一辆矿车（手持锁链，30 秒内）。"
+train-coupled: "<green>已连接。你的列车共有 <yellow>{cars}</yellow> 节车厢。"
+train-uncoupled: "<gray>已解除矿车连接。"
+train-not-coupled: "<gray>这辆矿车没有连接。"
+train-too-far: "<red>矿车之间距离太远（最多 {distance} 格）。"
+train-full: "<red>矿车只能在前后两端连接 – 其中一辆已有两个连接。"
+train-too-long: "<red>列车最多只能有 {max} 节车厢。"
+train-same: "<red>这些矿车已在同一列车中。"
+train-broke: "<red>⛓ 连接断开 – 矿车之间距离太远"
+info-train: "<gray>列车：<yellow>{cars}</yellow> 节已连接的车厢 <dark_gray>(/rails uncouple)"
+menu-travel: "<aqua>前往 {player}"
+menu-travel-lore: "<gray>目的地：车站 <yellow>{station}</yellow>，距离 {player} {distance} 米"
+
+# 通过 Vystorm Core 提供的 /rails：每位玩家看到自己语言的说明、帮助和 Tab 补全。commands.rails 下的 "aliases" 是额外的
+# 主命令（全服生效，由管理员在 Core 配置 commands.localized-aliases 中选择语言）；子命令的 "name" 和 "aliases"
+# 在所有语言中都可使用，英文始终有效。
+stations-header: "<gold>车站：显示 {shown} 个，共 {total} 个匹配项（由近到远）"
+stations-entry: "<gray>• <aqua>{station}</aqua> — {distance} 米，XYZ：{x}, {y}, {z}"
+stations-empty: "<gray>当前世界没有匹配的已知命名车站。"
+stations-hint: "<gray>搜索：<yellow>/rails 车站 名称</yellow> · 前往：<yellow>/rails 目的地 名称</yellow>"
+commands:
+  rails:
+    description: "矿车：目的地、线路图、矿车信息和矿车方块"
+    aliases: [铁轨]
+    sub:
+      dest:
+        name: 目的地
+        aliases: []
+        description: "显示或设置你的目的地——道岔会把矿车送往那里；清除 可删除目的地"
+        args:
+          name: "车站|清除"
+      line:
+        name: 线路
+        aliases: []
+        description: "管理列车线路与有序时刻表"
+        args:
+          action: "操作"
+      departures:
+        name: 发车
+        aliases: []
+        description: "查看车站计划发车时间"
+        args:
+          station: "车站"
+      map:
+        name: 地图
+        aliases: [线路图]
+        description: "打开线路图"
+      stations:
+        name: 车站
+        aliases: []
+        description: "查找当前世界已知的车站，按距离排序"
+        args:
+          search: "搜索"
+      favorite:
+        name: 收藏
+        aliases: []
+        description: "将已知车站保存为个人收藏"
+        args:
+          name: "车站"
+      favorites:
+        name: 收藏夹
+        aliases: []
+        description: "打开当前世界的收藏车站"
+      ticket:
+        name: ticket
+        aliases: []
+        description: "你的日票；购买可免费乘车 24 小时"
+        sub:
+          buy:
+            name: buy
+            aliases: []
+            description: "购买日票"
+      fare:
+        name: fare
+        aliases: []
+        description: "管理员：查看或设置车站票价"
+        args:
+          station: "STATION"
+          amount: "AMOUNT"
+      info:
+        name: 信息
+        aliases: []
+        description: "你的矿车的速度、目的地、所有者和列车"
+      blocks:
+        name: 方块
+        aliases: []
+        description: "本服务器的加速方块和矿车方块"
+      uncouple:
+        name: 脱钩
+        aliases: []
+        description: "把你乘坐或看着的矿车从列车上脱钩"
+      reload:
+        name: 重载
+        aliases: []
+        description: "重新加载配置和语言文件"
+
+favorites-location: "<gray>水平距离：{distance} 米 · 坐标：{x}, {y}, {z}"
+
+fare:
+  disabled: "<gray>本服务器已关闭票价。"
+  no-economy: "<red>车票需要经济插件。"
+  too-poor: "<red>日票价格为 {price}。"
+  storage: "<red>无法保存票价；未做任何更改。"
+  paid: "<gray>🎫 已在 {station} 支付票价 {fare}。"
+  unpaid: "<red>🎫 {station} 的票价为 {fare}。使用 /rails ticket buy 购买日票（{ticket}），或带足钱后重新上车。"
+  ticket-valid: "<green>🎫 你的日票还剩 {hours} 小时。"
+  ticket-none: "<gray>🎫 没有日票。/rails ticket buy —— {price} 可免费乘车 24 小时。"
+  ticket-bought: "<green>🎫 已用 {price} 购买日票：{hours} 小时内免费乘车。"
+  list-none: "<gray>没有车站收取票价。"
+  row: "<yellow>{station}</yellow> <gray>– {fare}"
+  usage: "<gray>/rails fare [车站] [金额|off]"
+  set: "<green>{station} 的票价：{fare}。"
+  cleared: "<green>{station} 恢复免费。"
+panel-station: "车站"
+panel-distance: "距离"
+panel-location: "坐标"
+panel-destination: "设为目的地"
+panel-remove: "移除收藏"
+panel-remove-confirm: "要将 {station} 从收藏中移除吗？"
+panel-pick: "选择车站以查看详情。"
+panel-search: "搜索车站"
+panel-stations: "车站"
+panel-map: "地图"
+panel-refresh: "刷新"
+panel-clear: "清除目的地"
+panel-zoom: "缩放"
+panel-unavailable: "不可用"

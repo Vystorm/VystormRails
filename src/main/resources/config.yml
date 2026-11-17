@@ -1,0 +1,148 @@
+# Vystorm Rails – speeds are in blocks per tick (vanilla top speed 0.4 = 29 km/h; 1.0 = 72 km/h).
+sign-header: "[rails]"
+
+speed:
+  # Top speed of a cart without speed block or speed sign.
+  default: 0.4
+  # Nothing goes faster. Above about 1.5 carts start to skip rails.
+  cap: 1.5
+  # Brake to curve-speed before curves, slopes and track ends.
+  slow-before-curves: true
+  curve-speed: 0.4
+  # How many rail blocks ahead are checked.
+  lookahead: 3
+  # Block under the rail -> top speed while on it. "*NAME" matches every block whose name ends with NAME.
+  blocks:
+    "*COPPER": 0.8
+    "*COPPER_BLOCK": 0.8
+    GOLD_BLOCK: 1.2
+    DIAMOND_BLOCK: 1.5
+    SOUL_SAND: 0.15
+    SOUL_SOIL: 0.15
+
+collisions:
+  # Ridden carts push mobs off the track instead of stopping.
+  push-mobs: true
+  mob-damage: 4.0
+  # Slower carts bump into mobs as in vanilla.
+  min-speed: 0.25
+  # Ridden carts pass through players.
+  pass-through-players: true
+  # Empty carts pick up mobs (vanilla: yes).
+  empty-carts-pick-up-mobs: false
+
+pickup:
+  # Leaving a cart you placed puts it back into your inventory (survival and adventure).
+  on-exit: true
+  # Breaking a cart puts it straight into your inventory instead of dropping it.
+  on-break: true
+
+# km/h, top speed, destination and the straight-line distance to it in the action bar while riding.
+speedometer: true
+
+# Arriving at the station that is your destination (name on the station sign = destination).
+arrival:
+  # Title "you have reached your destination" and a chime for the riders.
+  title: true
+  # Clear the destination of the cart, its train and its riders, so the next ride starts without one.
+  clear-destination: true
+
+# What blocks do to carts besides speed. Use "none" to switch one off.
+cart-blocks:
+  # Off the track a cart keeps this share of its speed per tick on these blocks (vanilla ground: 0.5).
+  # Ice slides, honey catches a cart (soft landing after a jump).
+  ground:
+    ICE: 0.97
+    PACKED_ICE: 0.98
+    BLUE_ICE: 0.99
+    HONEY_BLOCK: 0.1
+  # On these blocks the rider steers with A/D, brakes with S and pushes a little with W.
+  steer:
+    enabled: true
+    degrees-per-tick: 4
+    push-up-to: 0.3
+  # The last rail on this block throws the cart into the air: power + speed * speed-factor upwards.
+  jump:
+    block: SLIME_BLOCK
+    power: 0.5
+    speed-factor: 0.4
+    min-speed: 0.2
+    # Share of speed kept per tick in the air after a jump (vanilla 0.95).
+    air-keep: 0.99
+  # This block right behind the end of the track sends carts back.
+  bounce:
+    block: SLIME_BLOCK
+    keep: 0.8
+  # This block beside a rail moves the cart onto the next parallel track on the other side (up to range blocks away).
+  shift:
+    block: SLIME_BLOCK
+    range: 4
+  # A rail on this block spins the cart once; reverse sends it back where it came from.
+  spin:
+    block: MAGMA_BLOCK
+    ticks: 20
+    reverse: true
+  # A column of this block at the end of the track lifts (or lowers) the cart to the track at the column's other end.
+  elevator:
+    block: SCAFFOLDING
+    speed: 0.25
+    max-height: 64
+  # Carts swim on these like a boat (W/A/S/D); rider and cart do not burn. Add WATER if you like.
+  float:
+    fluids: [LAVA]
+    speed: 0.35
+    # Flames on the cart while it swims on lava (it does not take damage either way).
+    visual-fire: true
+  # A rail on this block is a signal: carts stop there while the block is powered by redstone, or while another cart
+  # is on the next clear-ahead rails (keeps carts on one track from running into each other). 0 = redstone only.
+  signal:
+    block: REDSTONE_LAMP
+    clear-ahead: 8
+
+# Trains: right-click a cart with a chain, then a second cart, and they are coupled. Sneak + right-click uncouples.
+# The front cart drives (stations, signals, braking), the others follow. Jump, bounce, shift, spin, elevator and lava
+# boat blocks are for single carts and leave trains alone.
+trains:
+  enabled: true
+  # Item to couple with. "*NAME" matches every item whose name ends with NAME (iron and copper chains).
+  coupler: "*CHAIN"
+  # Blocks from cart centre to cart centre.
+  spacing: 1.6
+  # The second cart must be at most this far from the first one when coupling.
+  couple-distance: 3
+  # A coupling breaks when two carts get further apart than this (derailed, pushed off the track).
+  break-distance: 6
+  max-length: 8
+
+# Auto-routing: a cart with a destination (/rails dest, dest sign, map, player menu) sets every junction without switch
+# sign itself to the shortest way to that station. Junctions are plain rails with three or four rails leading to them.
+routing:
+  enabled: true
+  # Rails searched per junction at most; the search follows loaded track and estimates the rest in a straight line.
+  search-limit: 4000
+  # "Travel to" entry in the Vystorm Core player menu (sneak + right-click a player): the station closest to them
+  # becomes your destination.
+  player-menu: true
+
+# Personal station favorites, saved per player and world. Lowering the limit keeps existing entries.
+favorites:
+  # 0 disables adding; 54 is the menu capacity. Existing favorites remain usable/removable.
+  max-per-world: 18
+
+fares:
+  # Tickets and fares (needs a Vault economy): admins set a fare per station with /rails fare <station> <amount|off>.
+  # Every rider whose cart leaves that station pays it; who cannot pay is set down at the station. A day ticket
+  # (/rails ticket buy) makes all rides free for 24 hours. Permission vystormrails.fare.free rides free.
+  enabled: true
+  # Price of a day ticket (0 = free tickets).
+  day-ticket: 50
+  # Player who receives the fares (empty = nobody, the money leaves the economy).
+  payee: ""
+
+freight:
+  # Freight: a sign with "freight" on line 2 (load, unload or both on line 3, stop seconds on line 4, default 3) makes
+  # chest and hopper minecarts stop and swap items with the chest, barrel or hopper next to the rail.
+  # unload = cart -> container, load = container -> cart, both = unload first, then load.
+  enabled: true
+  # Most items moved at one stop (1-3456).
+  items-per-stop: 256

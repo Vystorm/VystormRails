@@ -1,0 +1,17 @@
+title: 'Rails'
+permission: vystormrails.use
+pages:
+  - title: 'Votre réseau ferré'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails ou le menu (/vmenu → Monde) affiche la carte du réseau avec les gares et votre wagonnet.
+      Tapez /rails help pour voir toutes les commandes.
+  - title: 'Aller à une destination'
+    gif: "tutorial/travel.gif"
+    text: |
+      Montez dans un wagonnet et utilisez /rails dest STATION. Les aiguillages vous guident. Enregistrez des gares avec /rails favorite.
+  - title: 'Blocs pour wagonnets'
+    gif: "tutorial/blocks.gif"
+    text: |
+      Les blocs sous les rails changent le trajet : or et diamant accélèrent, le sable des âmes ralentit. /rails blocks les liste.
+      Tapez /rails help pour voir toutes les commandes.

@@ -1,0 +1,17 @@
+title: '铁路'
+permission: vystormrails.use
+pages:
+  - title: '你的铁路网'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails 或菜单（/vmenu → 世界）显示带车站和你矿车的线路图。
+      输入 /rails help 查看全部命令。
+  - title: '前往目的地'
+    gif: "tutorial/travel.gif"
+    text: |
+      坐上矿车并输入 /rails dest STATION，道岔会自动引导你。用 /rails favorite 收藏车站。
+  - title: '矿车方块'
+    gif: "tutorial/blocks.gif"
+    text: |
+      铁轨下的方块会改变行驶：金块和钻石块加速，灵魂沙减速。/rails blocks 列出全部。
+      输入 /rails help 查看全部命令。

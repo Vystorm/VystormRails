@@ -1,0 +1,17 @@
+title: 'Trilhos'
+permission: vystormrails.use
+pages:
+  - title: 'Sua rede ferroviária'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails ou o menu (/vmenu → Mundo) mostra o mapa com estações e seu carrinho.
+      Digite /rails help para ver todos os comandos.
+  - title: 'Viajar a um destino'
+    gif: "tutorial/travel.gif"
+    text: |
+      Entre num carrinho e use /rails dest STATION. Os desvios guiam você. Salve estações com /rails favorite.
+  - title: 'Blocos para carrinhos'
+    gif: "tutorial/blocks.gif"
+    text: |
+      Blocos sob os trilhos mudam a viagem: ouro e diamante aceleram, areia das almas freia. /rails blocks lista todos.
+      Digite /rails help para ver todos os comandos.

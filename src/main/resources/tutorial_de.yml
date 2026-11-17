@@ -1,0 +1,17 @@
+title: 'Schienen'
+permission: vystormrails.use
+pages:
+  - title: 'Dein Schienennetz'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails oder das Menü (/vmenu → Welt) zeigt den Netzplan mit Bahnhöfen und deiner Lore.
+      Mit /rails help siehst du alle Befehle.
+  - title: 'Zu einem Ziel fahren'
+    gif: "tutorial/travel.gif"
+    text: |
+      Setz dich in eine Lore und nutze /rails dest STATION. Weichen lenken dich automatisch. Bahnhöfe merkst du dir mit /rails favorite.
+  - title: 'Lorenblöcke'
+    gif: "tutorial/blocks.gif"
+    text: |
+      Blöcke unter den Schienen verändern die Fahrt: Gold- und Diamantblöcke machen schneller, Seelensand bremst. /rails blocks zeigt alle.
+      Mit /rails help siehst du alle Befehle.

@@ -1,0 +1,205 @@
+line-failed: "<yellow>La ligne est arrêtée : une ligne ou une gare est indisponible."
+line-usage: "<yellow>/rails line create ID CYCLE_SECONDES Gare@DÉCALAGE|Gare@DÉCALAGE; list, show ID, assign ID, stop, delete ID"
+line-saved: "<yellow>Ligne {line} enregistrée."
+line-exists: "<yellow>Cette ligne existe déjà dans ce monde."
+line-missing: "<yellow>Ligne ou gare introuvable. Chaque arrêt doit être une gare connue."
+line-stopped: "<yellow>Service arrêté ; destination du wagon effacée."
+line-deleted: "<yellow>Ligne {line} supprimée."
+line-assigned: "<yellow>Wagon affecté à {line}. Poussez-le vers sa première gare."
+line-save-failed: "<yellow>Impossible de charger ou enregistrer les horaires. Les données existantes sont conservées."
+line-cart-denied: "<yellow>Il faut vystormrails.train et un wagon de tête qui vous appartient ou que vous pouvez gérer en tant qu’administrateur."
+line-preview: "<yellow>{line} : cycle de {period}s — {stops}"
+line-board: "<yellow>Départs prévus à {station}"
+line-departure: "<yellow>{line} : dans {seconds}s → {next}"
+line-board-empty: "<yellow>Aucune ligne programmée ne dessert cette gare."
+# Français — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+favorites-title: <yellow>Stations préférées
+favorites-empty: <yellow>Pas de favoris. Utilisation /rails favorite NAME
+favorites-missing: <yellow>La station n'est plus connue dans ce monde.
+favorites-remove: '<yellow>Faites un clic droit : retirez votre favori'
+favorites-added: <yellow>Sauvé {station} comme un favori.
+favorites-exists: <yellow>{station} est déjà un favori.
+favorites-full: <yellow>Tout au plus {limit} favoris par monde. Enlever un dans /rails favorites.
+favorites-removed: <yellow>Enlever le favori {station}.
+speedometer: <gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max}
+speedometer-dest: <gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max. {max} · <aqua>➜ {dest}
+speedometer-dest-distance: <gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max. {max} · <aqua>➜ {dest}</aqua> <yellow>{distance}
+  m
+arrival-title: <gold>🚉 {station}
+arrival-subtitle: <green>Vous avez atteint votre destination
+arrival-subtitle-cleared: <green>Vous avez atteint votre destination <gray>– destination autorisée
+station-arrive: <gold>🚉 <yellow>{station}</yellow> <gray>– départ en {seconds} s
+station-countdown: <gray>Départ <yellow>{seconds}</yellow> s
+station-unnamed: Station
+dest-set: '<green>Destination: <aqua>{dest}'
+dest-show: '<gray>Votre destination: <aqua>{dest}</aqua> <dark_gray>(/rails dest clear)'
+dest-none: <gray>Pas de destination. En définir une avec <yellow>/rails dest NAME</yellow>; interrupteurs envoyer votre panier
+  là-bas.
+dest-cleared: <gray>Destination autorisée.
+sign-header: <dark_aqua>{header}
+sign-created: '<green>Signe ferroviaire créé : <yellow>{action}'
+sign-invalid: '<red>Signal inconnu. Ligne 2 : station, vitesse, départ, commutateur, ramassage ou freight.'
+sign-denied: <red>Vous ne pouvez pas créer de panneaux de rail.
+info: <gold>Minecart <gray>– vitesse <yellow>{kmh}</yellow> km/h, max {max} km/h, vitesse maximale propre {speed}, destination
+  <aqua>{dest}</aqua>, propriétaire {owner}
+no-cart: <red>Allez-y.
+players-only: <red>Seuls les joueurs peuvent le faire.
+denied: <red>Vous n'avez pas la permission pour ça.
+reloaded: <green>Vystorm Rails rechargés ({blocks} blocs de vitesse).
+menu-rails: "Réseau ferré"
+menu-rails-desc: "<gray>Destinations, gares et votre wagonnet sur la carte"
+map-title: Réseau ferroviaire
+map-you: <green>Toi
+map-you-dest: '<gray>Destination: <aqua>{dest}'
+map-coords: <dark_gray>{x}, {z}
+map-rail: <gray>Chemin de fer
+map-station: <aqua>🚉 {station}
+map-distance: <gray>{distance} m de distance
+map-station-click: '<yellow>Cliquez sur : faites-en votre destination'
+map-station-dest: <green>✔ Votre destination
+map-zoom: '<yellow>Zoom: 1 champ = {scale} blocs'
+map-zoom-lore: <gray>Cliquez à gauche plus près, cliquez à droite plus loin
+map-north: <yellow>Nord
+map-south: <yellow>▼ Sud
+map-west: <yellow>◀ Ouest
+map-east: <yellow>▶ Est
+map-center: <yellow>Centrer sur moi
+map-stations: <gray>{count} gares, {rails} rails connus
+map-center-clear: '<gray>Clic droit : destination dégagée <aqua>{dest}'
+signal-red: <red>Signal à l'arrêt <gray>– votre chariot attend
+signal-occupied: <red>Piste occupée <gray>– votre chariot attend
+blocks-header: '<gold>Blocs sous et à côté des rails sur ce serveur:'
+blocks-speed: '<gray>• <yellow>{block}</yellow> sous le rail: vitesse maximale {kmh} km/h'
+blocks-slide: '<gray>• <yellow>{block}</yellow>: chariots glissent hors de la piste (boucles A/D, freins S)'
+blocks-catch: '<gray>• <yellow>{block}</yellow>: attrape un chariot hors de la piste'
+blocks-jump: '<gray>• <yellow>{block}</yellow> sous le dernier rail: saut'
+blocks-bounce: '<gray>• <yellow>{block}</yellow> derrière la piste: rebondit le chariot retour'
+blocks-shift: '<gray>• <yellow>{block}</yellow> à côté du rail: sur la voie parallèle opposée'
+blocks-spin: '<gray>• <yellow>{block}</yellow> sous un rail: tourne le chariot et le renvoie'
+blocks-elevator: '<gray>• <yellow>{block}</yellow> colonne à la fin de la voie: ascenseur'
+blocks-signal: '<gray>• <yellow>{block}</yellow> sous un rail: signal – les chariots attendent pendant qu''il est alimenté
+  ou la voie devant est occupée'
+blocks-float: '<gray>• <yellow>{block}</yellow>: chariots nager dessus comme un bateau'
+train-selected: <gray>Panier sélectionné. Maintenant, faites un clic droit sur le chariot qu'il devrait être couplé à (avec
+  la chaîne, dans les 30 s).
+train-coupled: <green>Coupled. Votre train a <yellow>{cars}</yellow> Des chariots.
+train-uncoupled: <gray>Panier découplé.
+train-not-coupled: <gray>Ce chariot n'est pas couplé.
+train-too-far: <red>Les chariots sont trop éloignés (au plus {distance} blocs).
+train-full: <red>Un chariot ne peut être couplé qu'à l'avant et à l'arrière – l'un d'eux a déjà deux couplages.
+train-too-long: <red>Les trains peuvent avoir au plus {max} chariots.
+train-same: <red>Ces chariots sont déjà dans le même train.
+train-broke: <red>Un couplage cassé – les chariots sont trop éloignés
+info-train: '<gray>Train: <yellow>{cars}</yellow> chariots couplés <dark_gray>(/rails uncouple)'
+menu-travel: <aqua>Frais de voyage à {player}
+menu-travel-lore: '<gray>Destination: station <yellow>{station}</yellow>, {distance} m à partir de {player}'
+stations-header: '<gold>Stations: {shown} de {total} allumettes (avant tout)'
+stations-entry: '<gray>• <aqua>{station}</aqua> — {distance} m, XYZ: {x}, {y}, {z}'
+stations-empty: <gray>Aucune station connue ne correspond dans ce monde.
+stations-hint: '<gray>Rechercher: <yellow>/rails stations NAME</yellow> · Voyages: <yellow>/rails dest NAME</yellow>'
+commands:
+  rails:
+    description: 'Minecarts: destination, plan du réseau, informations du panier et blocs de paniers'
+    aliases: []
+    sub:
+      dest:
+        name: dest
+        aliases: []
+        description: Afficher ou définir votre destination – commutateurs envoyer votre panier là-bas; effacer le supprimer
+        args:
+          name: STATION|clear
+      line:
+        name: line
+        aliases: []
+        description: "Gérer les lignes et leurs horaires"
+        args:
+          action: "ACTION"
+      departures:
+        name: departures
+        aliases: []
+        description: "Afficher les départs prévus en gare"
+        args:
+          station: "GARE"
+      map:
+        name: map
+        aliases: []
+        description: Ouvrir la carte réseau
+      stations:
+        name: stations
+        aliases: []
+        description: Trouver des stations connues dans ce monde, le plus proche
+        args:
+          search: SEARCH
+      favorite:
+        name: favorite
+        aliases: []
+        description: Enregistrer une station connue comme un favori personnel
+        args:
+          name: STATION
+      favorites:
+        name: favorites
+        aliases: []
+        description: Ouvrez vos favoris pour ce monde
+      ticket:
+        name: ticket
+        aliases: []
+        description: "Ton billet journée ; achètes-en un pour 24 h de trajets gratuits"
+        sub:
+          buy:
+            name: buy
+            aliases: []
+            description: "Acheter un billet journée"
+      fare:
+        name: fare
+        aliases: []
+        description: "Admin : voir ou définir les tarifs des gares"
+        args:
+          station: "STATION"
+          amount: "AMOUNT"
+      info:
+        name: info
+        aliases: []
+        description: Vitesse, destination, propriétaire et train de votre panier
+      blocks:
+        name: blocks
+        aliases: []
+        description: Blocs de vitesse et blocs de chariot de ce serveur
+      uncouple:
+        name: uncouple
+        aliases: []
+        description: Découpez le chariot que vous roulez ou regardez depuis son train
+      reload:
+        name: reload
+        aliases: []
+        description: Recharger les fichiers de configuration et de langue
+favorites-location: '<gray>Distance horizontale: {distance} m · XYZ: {x}, {y}, {z}'
+
+fare:
+  disabled: "<gray>Les tarifs sont désactivés sur ce serveur."
+  no-economy: "<red>Les billets demandent un plugin d’économie."
+  too-poor: "<red>Un billet journée coûte {price}."
+  storage: "<red>Les tarifs n’ont pas pu être enregistrés ; rien n’a changé."
+  paid: "<gray>🎫 Tarif {fare} payé à {station}."
+  unpaid: "<red>🎫 Le tarif à {station} est de {fare}. Achète un billet journée ({ticket}) avec /rails ticket buy ou remonte avec assez d’argent."
+  ticket-valid: "<green>🎫 Ton billet journée est valable encore {hours} heure(s)."
+  ticket-none: "<gray>🎫 Pas de billet journée. /rails ticket buy – {price} pour 24 h de trajets gratuits."
+  ticket-bought: "<green>🎫 Billet journée acheté pour {price} : trajets gratuits pendant {hours} heure(s)."
+  list-none: "<gray>Aucune gare ne demande de tarif."
+  row: "<yellow>{station}</yellow> <gray>– {fare}"
+  usage: "<gray>/rails fare [GARE] [MONTANT|off]"
+  set: "<green>Tarif à {station} : {fare}."
+  cleared: "<green>{station} est de nouveau gratuite."
+panel-station: "Gare"
+panel-distance: "Distance"
+panel-location: "Coordonnées"
+panel-destination: "Définir la destination"
+panel-remove: "Retirer des favoris"
+panel-remove-confirm: "Retirer {station} de tes favoris ?"
+panel-pick: "Sélectionne une gare pour voir ses détails."
+panel-search: "Rechercher une gare"
+panel-stations: "Gares"
+panel-map: "Carte"
+panel-refresh: "Actualiser"
+panel-clear: "Effacer la destination"
+panel-zoom: "Zoom"
+panel-unavailable: "Indisponible"

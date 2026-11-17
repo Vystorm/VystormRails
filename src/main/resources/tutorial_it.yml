@@ -1,0 +1,17 @@
+title: 'Binari'
+permission: vystormrails.use
+pages:
+  - title: 'La tua rete ferroviaria'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails o il menu (/vmenu → Mondo) mostra la mappa con stazioni e il tuo carrello.
+      Scrivi /rails help per vedere tutti i comandi.
+  - title: 'Viaggiare verso una meta'
+    gif: "tutorial/travel.gif"
+    text: |
+      Sali su un carrello e usa /rails dest STATION. Gli scambi ti guidano. Salva stazioni con /rails favorite.
+  - title: 'Blocchi per carrelli'
+    gif: "tutorial/blocks.gif"
+    text: |
+      I blocchi sotto i binari cambiano il viaggio: oro e diamante accelerano, la sabbia delle anime rallenta. /rails blocks li elenca.
+      Scrivi /rails help per vedere tutti i comandi.

@@ -1,0 +1,30 @@
+name: VystormRails
+version: '${version}'
+main: at.esoren.vystormrails.RailsPlugin
+api-version: '1.20.6'
+author: Esoren
+depend: [vystorm_core]
+website: https://vystorm.net
+description: Faster minecarts, stations, destinations and switches with signs – no dependencies besides Vystorm Core.
+permissions:
+  vystormrails.ticket:
+    description: Buy and show day tickets (/rails ticket)
+    default: true
+  vystormrails.fare:
+    description: Set station fares (/rails fare)
+    default: op
+  vystormrails.fare.free:
+    description: Ride without paying fares
+    default: false
+  vystormrails.use:
+    description: Ride with the improvements, set a destination, carts back into the inventory.
+    default: true
+  vystormrails.sign:
+    description: Create [rails] signs.
+    default: op
+  vystormrails.admin:
+    description: Reload the configuration.
+    default: op
+  vystormrails.train:
+    description: Couple carts into trains with a chain and uncouple them.
+    default: true

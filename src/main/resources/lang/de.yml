@@ -1,0 +1,204 @@
+line-failed: "<yellow>Die Zuglinie wurde gestoppt: Linie oder Bahnhof nicht verfügbar."
+line-usage: "<yellow>/rails line create ID UMLAUF_SEKUNDEN Bahnhof@VERSATZ|Bahnhof@VERSATZ; list, show ID, assign ID, stop, delete ID"
+line-saved: "<yellow>Linie {line} gespeichert."
+line-exists: "<yellow>Diese Linie existiert bereits in dieser Welt."
+line-missing: "<yellow>Linie oder Bahnhof unbekannt. Jeder Halt muss ein bekannter Bahnhof sein."
+line-stopped: "<yellow>Linienbetrieb gestoppt; Wagenziel gelöscht."
+line-deleted: "<yellow>Linie {line} gelöscht."
+line-assigned: "<yellow>Wagen der Linie {line} zugewiesen. Schiebe ihn zum ersten Bahnhof."
+line-save-failed: "<yellow>Fahrpläne konnten nicht gespeichert oder geladen werden. Vorhandene Daten bleiben erhalten."
+line-cart-denied: "<yellow>Du brauchst vystormrails.train und eine führende Lore, die dir gehört oder die du als Administrator verwalten darfst."
+line-preview: "<yellow>{line}: Umlauf {period}s — {stops}"
+line-board: "<yellow>Planmäßige Abfahrten in {station}"
+line-departure: "<yellow>{line}: in {seconds}s → {next}"
+line-board-empty: "<yellow>An diesem Bahnhof hält keine geplante Linie."
+favorites-title: "<yellow>Lieblingsbahnhöfe"
+favorites-empty: "<yellow>Keine Favoriten. Nutze /rails favorit NAME"
+favorites-missing: "<yellow>Bahnhof ist in dieser Welt nicht mehr bekannt."
+favorites-remove: "<yellow>Rechtsklick: Favorit entfernen"
+favorites-added: "<yellow>{station} als Favorit gespeichert."
+favorites-exists: "<yellow>{station} ist bereits ein Favorit."
+favorites-full: "<yellow>Höchstens {limit} Favoriten pro Welt. Entferne einen mit /rails favoriten."
+favorites-removed: "<yellow>Favorit {station} entfernt."
+speedometer: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max}"
+speedometer-dest: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max} · <aqua>➜ {dest}"
+speedometer-dest-distance: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max} · <aqua>➜ {dest}</aqua> <yellow>{distance} m"
+arrival-title: "<gold>🚉 {station}"
+arrival-subtitle: "<green>Du hast dein Ziel erreicht"
+arrival-subtitle-cleared: "<green>Du hast dein Ziel erreicht <gray>– Ziel gelöscht"
+station-arrive: "<gold>🚉 <yellow>{station}</yellow> <gray>– Abfahrt in {seconds} s"
+station-countdown: "<gray>Abfahrt in <yellow>{seconds}</yellow> s"
+station-unnamed: "Station"
+dest-set: "<green>Ziel: <aqua>{dest}"
+dest-show: "<gray>Dein Ziel: <aqua>{dest}</aqua> <dark_gray>(/rails dest clear)"
+dest-none: "<gray>Kein Ziel. Setze eines mit <yellow>/rails dest NAME</yellow>; Weichen schicken deine Lore dorthin."
+dest-cleared: "<gray>Ziel gelöscht."
+sign-header: "<dark_aqua>{header}"
+sign-created: "<green>Schienenschild erstellt: <yellow>{action}"
+sign-invalid: "<red>Unbekanntes Schienenschild. Zeile 2: station, speed, dest, switch, collect oder freight."
+sign-denied: "<red>Du darfst keine Schienenschilder erstellen."
+info: "<gold>Lore <gray>– Tempo <yellow>{kmh}</yellow> km/h, max {max} km/h, eigenes Höchsttempo {speed}, Ziel <aqua>{dest}</aqua>, Besitzer {owner}"
+no-cart: "<red>Fahre in einer Lore oder schau eine an."
+players-only: "<red>Das können nur Spieler."
+denied: "<red>Dafür fehlt dir die Berechtigung."
+reloaded: "<green>Vystorm Rails neu geladen ({blocks} Tempo-Blöcke)."
+menu-rails: "Schienennetz"
+menu-rails-desc: "<gray>Ziele, Bahnhöfe und deine Lore auf der Karte"
+map-title: "Streckennetz"
+map-you: "<green>Du"
+map-you-dest: "<gray>Ziel: <aqua>{dest}"
+map-coords: "<dark_gray>{x}, {z}"
+map-rail: "<gray>Gleis"
+map-station: "<aqua>🚉 {station}"
+map-distance: "<gray>{distance} m entfernt"
+map-station-click: "<yellow>Klick: als Ziel setzen"
+map-station-dest: "<green>✔ Dein Ziel"
+map-zoom: "<yellow>Zoom: 1 Feld = {scale} Blöcke"
+map-zoom-lore: "<gray>Linksklick näher, Rechtsklick weiter weg"
+map-north: "<yellow>▲ Norden"
+map-south: "<yellow>▼ Süden"
+map-west: "<yellow>◀ Westen"
+map-east: "<yellow>▶ Osten"
+map-center: "<yellow>Auf mich zentrieren"
+map-stations: "<gray>{count} Bahnhöfe, {rails} Gleise bekannt"
+map-center-clear: "<gray>Rechtsklick: Ziel <aqua>{dest}</aqua> löschen"
+signal-red: "<red>⛔ Signal auf Halt <gray>– deine Lore wartet"
+signal-occupied: "<red>⛔ Strecke voraus belegt <gray>– deine Lore wartet"
+blocks-header: "<gold>Blöcke unter und neben den Schienen auf diesem Server:"
+blocks-speed: "<gray>• <yellow>{block}</yellow> unter der Schiene: Höchsttempo {kmh} km/h"
+blocks-slide: "<gray>• <yellow>{block}</yellow>: Loren rutschen neben dem Gleis weiter (A/D lenkt, S bremst)"
+blocks-catch: "<gray>• <yellow>{block}</yellow>: fängt eine Lore neben dem Gleis auf"
+blocks-jump: "<gray>• <yellow>{block}</yellow> unter der letzten Schiene: Sprungschanze"
+blocks-bounce: "<gray>• <yellow>{block}</yellow> hinter dem Gleisende: wirft die Lore zurück"
+blocks-shift: "<gray>• <yellow>{block}</yellow> neben der Schiene: aufs Parallelgleis gegenüber"
+blocks-spin: "<gray>• <yellow>{block}</yellow> unter einer Schiene: dreht die Lore und schickt sie zurück"
+blocks-elevator: "<gray>• <yellow>{block}</yellow>-Säule am Gleisende: Aufzug"
+blocks-signal: "<gray>• <yellow>{block}</yellow> unter einer Schiene: Signal – Loren warten, solange er mit Redstone versorgt oder die Strecke voraus belegt ist"
+blocks-float: "<gray>• <yellow>{block}</yellow>: Loren schwimmen darauf wie ein Boot"
+train-selected: "<gray>Lore ausgewählt. Klicke jetzt mit der Kette die Lore an, an die sie gekoppelt werden soll (innerhalb von 30 s)."
+train-coupled: "<green>Gekoppelt. Dein Zug hat <yellow>{cars}</yellow> Loren."
+train-uncoupled: "<gray>Lore abgekoppelt."
+train-not-coupled: "<gray>Diese Lore ist nicht gekoppelt."
+train-too-far: "<red>Die Loren stehen zu weit auseinander (höchstens {distance} Blöcke)."
+train-full: "<red>Eine Lore lässt sich nur vorne und hinten koppeln – eine der beiden hat schon zwei Kupplungen."
+train-too-long: "<red>Ein Zug darf höchstens {max} Loren haben."
+train-same: "<red>Diese Loren sind schon im selben Zug."
+train-broke: "<red>⛓ Eine Kupplung ist gerissen – die Loren waren zu weit auseinander"
+info-train: "<gray>Zug: <yellow>{cars}</yellow> gekoppelte Loren <dark_gray>(/rails uncouple)"
+menu-travel: "<aqua>Zu {player} fahren"
+menu-travel-lore: "<gray>Ziel: Bahnhof <yellow>{station}</yellow>, {distance} m von {player} entfernt"
+
+# /rails über Vystorm Core: Beschreibung, Hilfe und Tab-Vervollständigung je Spieler. "aliases" unter commands.rails sind
+# zusätzliche Hauptbefehle (serverweit, der Admin wählt die Sprachen: Core-Konfig commands.localized-aliases); "name" und
+# "aliases" eines Unterbefehls werden in jeder Sprache verstanden, Englisch geht immer.
+stations-header: "<gold>Bahnhöfe: {shown} von {total} Treffern (nächste zuerst)"
+stations-entry: "<gray>• <aqua>{station}</aqua> — {distance} m, XYZ: {x}, {y}, {z}"
+stations-empty: "<gray>Keine passenden bekannten benannten Bahnhöfe in dieser Welt."
+stations-hint: "<gray>Suchen: <yellow>/rails bahnhoefe NAME</yellow> · Reisen: <yellow>/rails ziel NAME</yellow>"
+commands:
+  rails:
+    description: "Loren: Ziel, Streckenkarte, Loren-Info und Lorenblöcke"
+    aliases: [schienen]
+    sub:
+      dest:
+        name: ziel
+        aliases: [reiseziel]
+        description: "Ziel anzeigen oder setzen – Weichen schicken deine Lore dorthin; löschen entfernt es"
+        args:
+          name: "BAHNHOF|löschen"
+      line:
+        name: linie
+        aliases: []
+        description: "Zuglinien und geordnete Fahrpläne verwalten"
+        args:
+          action: "AKTION"
+      departures:
+        name: abfahrten
+        aliases: []
+        description: "Planmäßige Abfahrten am Bahnhof anzeigen"
+        args:
+          station: "BAHNHOF"
+      map:
+        name: karte
+        aliases: [streckenkarte]
+        description: "Streckenkarte öffnen"
+      stations:
+        name: bahnhoefe
+        aliases: []
+        description: "Bekannte Bahnhöfe dieser Welt finden, nächste zuerst"
+        args:
+          search: "SUCHE"
+      favorite:
+        name: favorit
+        aliases: []
+        description: "Bekannten Bahnhof als persönlichen Favoriten speichern"
+        args:
+          name: "BAHNHOF"
+      favorites:
+        name: favoriten
+        aliases: []
+        description: "Deine Favoriten dieser Welt öffnen"
+      ticket:
+        name: ticket
+        aliases: []
+        description: "Deine Tageskarte; kauf eine für 24 Stunden freie Fahrt"
+        sub:
+          buy:
+            name: buy
+            aliases: []
+            description: "Eine Tageskarte kaufen"
+      fare:
+        name: fare
+        aliases: []
+        description: "Admin: Fahrpreise der Bahnhöfe zeigen oder setzen"
+        args:
+          station: "STATION"
+          amount: "AMOUNT"
+      info:
+        name: info
+        aliases: []
+        description: "Tempo, Ziel, Besitzer und Zug deiner Lore"
+      blocks:
+        name: bloecke
+        aliases: [blöcke]
+        description: "Tempoblöcke und Lorenblöcke dieses Servers"
+      uncouple:
+        name: abkoppeln
+        aliases: []
+        description: "Die Lore, in der du sitzt oder die du ansiehst, vom Zug abkoppeln"
+      reload:
+        name: neuladen
+        aliases: []
+        description: "Konfiguration und Sprachdateien neu laden"
+
+favorites-location: "<gray>Waagerechte Entfernung: {distance} m · XYZ: {x}, {y}, {z}"
+
+fare:
+  disabled: "<gray>Fahrpreise sind auf diesem Server ausgeschaltet."
+  no-economy: "<red>Fahrkarten brauchen ein Economy-Plugin."
+  too-poor: "<red>Eine Tageskarte kostet {price}."
+  storage: "<red>Fahrpreise konnten nicht gespeichert werden; nichts wurde geändert."
+  paid: "<gray>🎫 Fahrpreis {fare} in {station} bezahlt."
+  unpaid: "<red>🎫 Der Fahrpreis in {station} ist {fare}. Kauf eine Tageskarte ({ticket}) mit /rails ticket buy oder steig mit genug Geld wieder ein."
+  ticket-valid: "<green>🎫 Deine Tageskarte gilt noch {hours} Stunde(n)."
+  ticket-none: "<gray>🎫 Keine Tageskarte. /rails ticket buy – {price} für 24 Stunden freie Fahrt."
+  ticket-bought: "<green>🎫 Tageskarte für {price} gekauft: {hours} Stunde(n) freie Fahrt."
+  list-none: "<gray>Kein Bahnhof verlangt einen Fahrpreis."
+  row: "<yellow>{station}</yellow> <gray>– {fare}"
+  usage: "<gray>/rails fare [BAHNHOF] [BETRAG|off]"
+  set: "<green>Fahrpreis in {station}: {fare}."
+  cleared: "<green>{station} ist wieder kostenlos."
+panel-station: "Bahnhof"
+panel-distance: "Entfernung"
+panel-location: "Koordinaten"
+panel-destination: "Als Ziel setzen"
+panel-remove: "Favorit entfernen"
+panel-remove-confirm: "{station} aus deinen Favoriten entfernen?"
+panel-pick: "Wähle einen Bahnhof, um Details zu sehen."
+panel-search: "Bahnhöfe suchen"
+panel-stations: "Bahnhöfe"
+panel-map: "Karte"
+panel-refresh: "Aktualisieren"
+panel-clear: "Ziel löschen"
+panel-zoom: "Zoom"
+panel-unavailable: "Nicht verfügbar"

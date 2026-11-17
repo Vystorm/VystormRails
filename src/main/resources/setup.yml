@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "intro": {
+    "en": "A few quick choices for Vystorm Rails. Everything else stays on its defaults.",
+    "de": "Ein paar schnelle Entscheidungen für Vystorm Rails. Alles andere bleibt auf Standard.",
+    "fr": "Quelques choix rapides pour Vystorm Rails. Le reste garde ses valeurs par défaut.",
+    "it": "Alcune scelte rapide per Vystorm Rails. Il resto resta predefinito.",
+    "pt_br": "Algumas escolhas rápidas para Vystorm Rails. O resto fica no padrão.",
+    "ru": "Несколько быстрых решений для Vystorm Rails. Остальное останется по умолчанию.",
+    "zh_cn": "Vystorm Rails 的几个快速选项，其余保持默认。"
+  },
+  "questions": [
+    {
+      "id": "speed",
+      "text": {
+        "en": "How fast may minecarts go at most?",
+        "de": "Wie schnell dürfen Loren höchstens fahren?",
+        "fr": "Vitesse maximale des wagonnets ?",
+        "it": "Velocità massima dei carrelli?",
+        "pt_br": "Velocidade máxima dos carrinhos?",
+        "ru": "Максимальная скорость вагонеток?",
+        "zh_cn": "矿车最高速度？"
+      },
+      "type": "choice",
+      "recommended": "fast",
+      "options": [
+        {
+          "id": "normal",
+          "label": {
+            "en": "Moderate",
+            "de": "Mäßig",
+            "fr": "Modérée",
+            "it": "Moderata",
+            "pt_br": "Moderada",
+            "ru": "Умеренная",
+            "zh_cn": "适中"
+          },
+          "set": {
+            "config.yml:speed.cap": 1
+          }
+        },
+        {
+          "id": "fast",
+          "label": {
+            "en": "Fast",
+            "de": "Schnell",
+            "fr": "Rapide",
+            "it": "Alta",
+            "pt_br": "Rápida",
+            "ru": "Высокая",
+            "zh_cn": "快速"
+          },
+          "set": {
+            "config.yml:speed.cap": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "trains",
+      "text": {
+        "en": "Allow coupled trains?",
+        "de": "Gekoppelte Züge erlauben?",
+        "fr": "Autoriser les trains attelés ?",
+        "it": "Consentire treni agganciati?",
+        "pt_br": "Permitir trens acoplados?",
+        "ru": "Разрешить сцепленные поезда?",
+        "zh_cn": "允许连接列车？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:trains.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:trains.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "routing",
+      "text": {
+        "en": "Enable automatic routing to destinations?",
+        "de": "Automatische Wegfindung zu Zielen aktivieren?",
+        "fr": "Activer l’itinéraire automatique ?",
+        "it": "Attivare il percorso automatico?",
+        "pt_br": "Ativar rotas automáticas?",
+        "ru": "Включить автомаршруты?",
+        "zh_cn": "启用自动寻路？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:routing.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:routing.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "mobs",
+      "text": {
+        "en": "Should carts push mobs out of the way?",
+        "de": "Sollen Loren Mobs aus dem Weg schieben?",
+        "fr": "Les wagonnets repoussent-ils les créatures ?",
+        "it": "I carrelli spingono via i mob?",
+        "pt_br": "Carrinhos empurram criaturas?",
+        "ru": "Должны ли вагонетки отталкивать мобов?",
+        "zh_cn": "矿车是否推开生物？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:collisions.push-mobs": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:collisions.push-mobs": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "freight",
+      "text": {
+        "en": "Allow freight stops where chest and hopper minecarts load and unload items?",
+        "de": "Frachthalte erlauben, an denen Kisten- und Trichterloren be- und entladen?",
+        "fr": "Autoriser les arrêts de fret où les wagonnets à coffre et à entonnoir chargent et déchargent ?",
+        "it": "Consentire fermate merci dove i carrelli con baule e tramoggia caricano e scaricano?",
+        "pt_br": "Permitir paradas de carga onde carrinhos com baú e funil carregam e descarregam?",
+        "ru": "Разрешить грузовые остановки, где вагонетки с сундуком и воронкой грузятся и разгружаются?",
+        "zh_cn": "允许运输矿车（箱子/漏斗）在货运站装卸物品？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:freight.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:freight.enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "fares",
+      "text": {
+        "en": "Allow station fares and day tickets (needs a Vault economy)?",
+        "de": "Fahrpreise und Tageskarten erlauben (braucht eine Vault-Economy)?",
+        "fr": "Autoriser les tarifs et billets journée (économie Vault requise) ?",
+        "it": "Consentire tariffe e biglietti giornalieri (serve Vault)?",
+        "pt_br": "Permitir tarifas e bilhetes diários (precisa de Vault)?",
+        "ru": "Разрешить тарифы и дневные билеты (нужна экономика Vault)?",
+        "zh_cn": "允许车站票价和日票（需要 Vault 经济）？"
+      },
+      "type": "choice",
+      "recommended": "on",
+      "options": [
+        {
+          "id": "on",
+          "label": {
+            "en": "On",
+            "de": "An",
+            "fr": "Activé",
+            "it": "Attivo",
+            "pt_br": "Ligado",
+            "ru": "Вкл.",
+            "zh_cn": "开启"
+          },
+          "set": {
+            "config.yml:fares.enabled": true
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "it": "Disattivo",
+            "pt_br": "Desligado",
+            "ru": "Выкл.",
+            "zh_cn": "关闭"
+          },
+          "set": {
+            "config.yml:fares.enabled": false
+          }
+        }
+      ]
+    }
+  ]
+}

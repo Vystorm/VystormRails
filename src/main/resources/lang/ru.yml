@@ -1,0 +1,206 @@
+line-failed: "<yellow>Линия остановлена: линия или станция недоступна."
+line-usage: "<yellow>/rails line create ID ЦИКЛ_СЕКУНДЫ Станция@СМЕЩЕНИЕ|Станция@СМЕЩЕНИЕ; list, show ID, assign ID, stop, delete ID"
+line-saved: "<yellow>Линия {line} сохранена."
+line-exists: "<yellow>В этом мире такая линия уже существует."
+line-missing: "<yellow>Линия или станция не найдена. Все остановки должны быть известными станциями."
+line-stopped: "<yellow>Движение по расписанию остановлено; пункт назначения вагонетки очищен."
+line-deleted: "<yellow>Линия {line} удалена."
+line-assigned: "<yellow>Вагонетка назначена на линию {line}. Толкните её к первой станции."
+line-save-failed: "<yellow>Не удалось сохранить или загрузить расписания. Существующие данные сохранены."
+line-cart-denied: "<yellow>Нужно право vystormrails.train и головная вагонетка, которой вы владеете или можете управлять как администратор."
+line-preview: "<yellow>{line}: цикл {period}с — {stops}"
+line-board: "<yellow>Отправления по расписанию: {station}"
+line-departure: "<yellow>{line}: через {seconds}с → {next}"
+line-board-empty: "<yellow>Через эту станцию не проходят линии с расписанием."
+# Русский — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+favorites-title: <yellow>Любимые станции
+favorites-empty: <yellow>Никаких фаворитов. Использовать /rails favorite NAME
+favorites-missing: <yellow>Станция больше не известна в этом мире.
+favorites-remove: '<yellow>Правый клик: удалите любимый'
+favorites-added: <yellow>Сэкономил {station} как фаворит.
+favorites-exists: <yellow>{station} уже является фаворитом.
+favorites-full: <yellow>В большинстве {limit} Любимые в мире. Удалить одного в /rails favorites.
+favorites-removed: <yellow>Удалены любимые {station}.
+speedometer: <gold>⚡ <yellow>{kmh}</yellow> км/ч <gray>max {max}
+speedometer-dest: <gold>⚡ <yellow>{kmh}</yellow> км/ч <gray>· max {max} <aqua>➜ {dest}
+speedometer-dest-distance: <gold>⚡ <yellow>{kmh}</yellow> км/ч <gray>· max {max} <aqua>➜ {dest}</aqua> <yellow>{distance}
+  м
+arrival-title: <gold>🚉 {station}
+arrival-subtitle: <green>Вы достигли своей цели
+arrival-subtitle-cleared: <green>Вы достигли своей цели <gray>- пункт назначения очищен
+station-arrive: <gold>🚉 <yellow>{station}</yellow> <gray>- вылет в {seconds} с
+station-countdown: <gray>Выезд в <yellow>{seconds}</yellow> s
+station-unnamed: Станция
+dest-set: '<green>Направление: <aqua>{dest}'
+dest-show: '<gray>Ваш пункт назначения: <aqua>{dest}</aqua> <dark_gray>(/rails dest clear)'
+dest-none: <gray>Нет места назначения. Сделать один с <yellow>/rails dest NAME</yellow>; Выключатели отправляют вашу тележку
+  туда.
+dest-cleared: <gray>Направление очищено.
+sign-header: <dark_aqua>{header}
+sign-created: '<green>Железнодорожный знак создан: <yellow>{action}'
+sign-invalid: '<red>Неизвестный железнодорожный знак. Линия 2: станция, скорость, выключатель, сбор или freight.'
+sign-denied: <red>Вы не можете создавать железнодорожные знаки.
+info: <gold>Минекарт <gray>скорость <yellow>{kmh}</yellow> км/ч, max {max} км/ч, собственная максимальная скорость {speed},
+  пункт назначения <aqua>{dest}</aqua>Владелец {owner}
+no-cart: <red>Поездка на минной повозке или взгляд на нее.
+players-only: <red>Это могут сделать только игроки.
+denied: <red>У вас нет на это разрешения.
+reloaded: <green>Перезагрузка Vystorm рельсов ({blocks} блоков скорости).
+menu-rails: "Железная дорога"
+menu-rails-desc: "<gray>Пункты назначения, станции и ваша вагонетка на карте"
+map-title: Железнодорожная сеть
+map-you: <green>Ты
+map-you-dest: '<gray>Направление: <aqua>{dest}'
+map-coords: <dark_gray>{x}, {z}
+map-rail: <gray>Железная дорога
+map-station: <aqua>🚉 {station}
+map-distance: <gray>{distance} метров
+map-station-click: '<yellow>Кликните: сделайте это своим пунктом назначения'
+map-station-dest: <green>✔ Ваш пункт назначения
+map-zoom: '<yellow>Зум: поле 1 = {scale} блоков'
+map-zoom-lore: <gray>Левый клик ближе, правый клик дальше
+map-north: <yellow>Северный
+map-south: <yellow>Южный
+map-west: <yellow>◀ Запад
+map-east: <yellow>▶ Восток
+map-center: <yellow>В центре меня
+map-stations: <gray>{count} станций, {rails} рельсов
+map-center-clear: '<gray>Правильный клик: ясное место назначения <aqua>{dest}'
+signal-red: <red>Сигнал на остановке <gray>Ваша тележка ждет
+signal-occupied: <red>Трек впереди занят <gray>Ваша тележка ждет
+blocks-header: '<gold>Блоки под и рядом с рельсами на этом сервере:'
+blocks-speed: '<gray>• <yellow>{block}</yellow> под рельсом: максимальная скорость {kmh} км/ч'
+blocks-slide: '<gray>• <yellow>{block}</yellow>: тележки скользят по дорожке (рули A/D, тормоза S)'
+blocks-catch: <gray>• <yellow>{block}</yellow>Поймает телегу с трассы
+blocks-jump: '<gray>• <yellow>{block}</yellow> Под последним рельсом: прыжок'
+blocks-bounce: '<gray>• <yellow>{block}</yellow> Оригинальное название: Bounces the Cart Back'
+blocks-shift: '<gray>• <yellow>{block}</yellow> Рядом с рельсом: на параллельном пути напротив'
+blocks-spin: '<gray>• <yellow>{block}</yellow> Под рельсом: крутит тележку и отправляет обратно'
+blocks-elevator: '<gray>• <yellow>{block}</yellow> Колонна в конце пути: лифт'
+blocks-signal: '<gray>• <yellow>{block}</yellow> под рельсом: сигнал - тележки ждут, пока она включена или дорога впереди
+  занята'
+blocks-float: <gray>• <yellow>{block}</yellow>Повозки плавают на нем, как лодка
+train-selected: <gray>Карт выбран. Теперь щелкните правой кнопкой мыши тележку, к которой она должна быть подключена (с цепью,
+  в пределах 30 с).
+train-coupled: <green>В паре. Ваш поезд имеет <yellow>{cars}</yellow> Повозки.
+train-uncoupled: <gray>Повозка развязана.
+train-not-coupled: <gray>Эта тележка не соединена.
+train-too-far: <red>Повозки находятся слишком далеко друг от друга (в большинстве {distance} блоков).
+train-full: <red>Повозка может быть соединена только спереди и сзади — одна из них уже имеет две муфты.
+train-too-long: <red>Поезда могут иметь не более {max} вагонов.
+train-same: <red>Эти вагоны уже в том же поезде.
+train-broke: <red>Связь сломалась - тележки слишком далеко разошлись
+info-train: '<gray>Поезд: <yellow>{cars}</yellow> парные тележки <dark_gray>(/rails uncouple)'
+menu-travel: <aqua>Путешествие в {player}
+menu-travel-lore: '<gray>Место назначения: станция <yellow>{station}</yellow>, {distance} м от {player}'
+stations-header: '<gold>Станции: {shown} из {total} матчей (почти первый)'
+stations-entry: '<gray>• <aqua>{station}</aqua> — {distance} м, XYZ: {x}, {y}, {z}'
+stations-empty: <gray>В этом мире нет известных названных станций.
+stations-hint: '<gray>Поиск: <yellow>/rails stations NAME</yellow> · Путешествие: <yellow>/rails dest NAME</yellow>'
+commands:
+  rails:
+    description: 'Minecarts: пункт назначения, сетевая карта, информация о корзине и блоки корзины'
+    aliases: []
+    sub:
+      dest:
+        name: dest
+        aliases: []
+        description: Покажите или установите пункт назначения - переключатели отправляют туда вашу тележку; четко удалите
+          ее
+        args:
+          name: STATION|clear
+      line:
+        name: line
+        aliases: []
+        description: "Управление линиями и расписанием остановок"
+        args:
+          action: "ДЕЙСТВИЕ"
+      departures:
+        name: departures
+        aliases: []
+        description: "Показать отправления со станции"
+        args:
+          station: "СТАНЦИЯ"
+      map:
+        name: map
+        aliases: []
+        description: Откройте сетевую карту
+      stations:
+        name: stations
+        aliases: []
+        description: Найти известные станции в этом мире, ближайшие первые
+        args:
+          search: SEARCH
+      favorite:
+        name: favorite
+        aliases: []
+        description: Сохранить известную станцию как личный фаворит
+        args:
+          name: STATION
+      favorites:
+        name: favorites
+        aliases: []
+        description: Откройте свои любимые для этого мира
+      ticket:
+        name: ticket
+        aliases: []
+        description: "Ваш дневной билет; купите 24 часа бесплатных поездок"
+        sub:
+          buy:
+            name: buy
+            aliases: []
+            description: "Купить дневной билет"
+      fare:
+        name: fare
+        aliases: []
+        description: "Админ: показать или задать тарифы станций"
+        args:
+          station: "STATION"
+          amount: "AMOUNT"
+      info:
+        name: info
+        aliases: []
+        description: Скорость, пункт назначения, владелец и поезд вашей тележки
+      blocks:
+        name: blocks
+        aliases: []
+        description: Блоки скорости и блоки карт этого сервера
+      uncouple:
+        name: uncouple
+        aliases: []
+        description: Отсоедините тележку, на которой вы ездите, или посмотрите на нее из поезда
+      reload:
+        name: reload
+        aliases: []
+        description: Перезагрузка конфигурационных и языковых файлов
+favorites-location: '<gray>Горизонтальное расстояние: {distance} м · XYZ: {x}, {y}, {z}'
+
+fare:
+  disabled: "<gray>Тарифы на этом сервере отключены."
+  no-economy: "<red>Для билетов нужен плагин экономики."
+  too-poor: "<red>Дневной билет стоит {price}."
+  storage: "<red>Не удалось сохранить тарифы; ничего не изменено."
+  paid: "<gray>🎫 Тариф {fare} оплачен на станции {station}."
+  unpaid: "<red>🎫 Тариф на станции {station}: {fare}. Купите дневной билет ({ticket}) командой /rails ticket buy или сядьте снова, имея достаточно денег."
+  ticket-valid: "<green>🎫 Ваш дневной билет действует ещё {hours} ч."
+  ticket-none: "<gray>🎫 Нет дневного билета. /rails ticket buy – {price} за 24 часа бесплатных поездок."
+  ticket-bought: "<green>🎫 Билет куплен за {price}: бесплатные поездки {hours} ч."
+  list-none: "<gray>Ни одна станция не берёт плату."
+  row: "<yellow>{station}</yellow> <gray>– {fare}"
+  usage: "<gray>/rails fare [СТАНЦИЯ] [СУММА|off]"
+  set: "<green>Тариф на станции {station}: {fare}."
+  cleared: "<green>Станция {station} снова бесплатна."
+panel-station: "Станция"
+panel-distance: "Расстояние"
+panel-location: "Координаты"
+panel-destination: "Выбрать пункт назначения"
+panel-remove: "Удалить из избранного"
+panel-remove-confirm: "Удалить {station} из избранного?"
+panel-pick: "Выберите станцию, чтобы увидеть подробности."
+panel-search: "Поиск станций"
+panel-stations: "Станции"
+panel-map: "Карта"
+panel-refresh: "Обновить"
+panel-clear: "Сбросить пункт назначения"
+panel-zoom: "Масштаб"
+panel-unavailable: "Недоступна"

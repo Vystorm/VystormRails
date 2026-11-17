@@ -1,0 +1,204 @@
+line-failed: "<yellow>A linha parou: uma linha ou estação está indisponível."
+line-usage: "<yellow>/rails line create ID CICLO_SEGUNDOS Estação@DESLOCAMENTO|Estação@DESLOCAMENTO; list, show ID, assign ID, stop, delete ID"
+line-saved: "<yellow>Linha {line} salva."
+line-exists: "<yellow>Essa linha já existe neste mundo."
+line-missing: "<yellow>Linha ou estação não encontrada. Todas as paradas devem ser estações conhecidas."
+line-stopped: "<yellow>Serviço programado parado; destino do carrinho removido."
+line-deleted: "<yellow>Linha {line} excluída."
+line-assigned: "<yellow>Carrinho atribuído à linha {line}. Empurre-o até a primeira estação."
+line-save-failed: "<yellow>Não foi possível salvar ou carregar os horários. Os dados existentes foram preservados."
+line-cart-denied: "<yellow>Você precisa de vystormrails.train e de um carrinho dianteiro que seja seu ou que possa gerenciar como administrador."
+line-preview: "<yellow>{line}: ciclo de {period}s — {stops}"
+line-board: "<yellow>Partidas programadas em {station}"
+line-departure: "<yellow>{line}: em {seconds}s → {next}"
+line-board-empty: "<yellow>Nenhuma linha programada atende esta estação."
+# Português (Brasil) — UTF-8. Keep keys, placeholders and formatting tokens unchanged.
+favorites-title: <yellow>Estações favoritas
+favorites-empty: <yellow>Sem favoritos. Use /rails favorite NAME
+favorites-missing: <yellow>A estação não é mais conhecida neste mundo.
+favorites-remove: '<yellow>Clique com o botão direito: remover o favorito'
+favorites-added: <yellow>Salvou {station} como favorito.
+favorites-exists: <yellow>{station} já é um favorito.
+favorites-full: <yellow>No máximo {limit} Favoritos por mundo. Remova um em /rails favorites.
+favorites-removed: <yellow>Retirado {station} favoritos.
+speedometer: <gold>⚡ <yellow>{kmh}</yellow> km/h <gray>No máximo {max}
+speedometer-dest: <gold>⚡ <yellow>{kmh}</yellow> km/h <gray>No máximo {max} <aqua>➜ {dest}
+speedometer-dest-distance: <gold>⚡ <yellow>{kmh}</yellow> km/h <gray>No máximo {max} <aqua>➜ {dest}</aqua> <yellow>{distance}
+  m
+arrival-title: <gold>🚉 {station}
+arrival-subtitle: <green>Você chegou ao seu destino
+arrival-subtitle-cleared: <green>Você chegou ao seu destino <gray>- Destino limpo
+station-arrive: <gold>🚉 <yellow>{station}</yellow> <gray>- Partida em {seconds} s
+station-countdown: <gray>Partida em <yellow>{seconds}</yellow> S
+station-unnamed: Estação
+dest-set: '<green>Destino: <aqua>{dest}'
+dest-show: '<gray>Seu destino: <aqua>{dest}</aqua> <dark_gray>(/rails dest clear)'
+dest-none: <gray>Sem destino. Defina um com <yellow>/rails dest NAME</yellow>; Mude, envie seu carrinho para lá.
+dest-cleared: <gray>Destino limpo.
+sign-header: <dark_aqua>{header}
+sign-created: '<green>Sinal de trem criado: <yellow>{action}'
+sign-invalid: '<red>Sinal de trem desconhecido. Linha 2: estação, velocidade, destino, interruptor, coleta ou freight.'
+sign-denied: <red>Você não pode criar sinais de trem.
+info: <gold>Minecart <gray>- Velocidade <yellow>{kmh}</yellow> km/h, max {max} km/h, velocidade máxima própria {speed}, destino
+  <aqua>{dest}</aqua>, proprietário {owner}
+no-cart: <red>Montar um carro minado ou olhar para um.
+players-only: <red>Só os jogadores podem fazer isso.
+denied: <red>Você não tem permissão para isso.
+reloaded: <green>Vystorm Rails recarregados ({blocks} blocos de velocidade).
+menu-rails: "Rede ferroviária"
+menu-rails-desc: "<gray>Destinos, estações e seu carrinho no mapa"
+map-title: Rede ferroviária
+map-you: <green>Você
+map-you-dest: '<gray>Destino: <aqua>{dest}'
+map-coords: <dark_gray>{x}, {z}
+map-rail: <gray>Rail
+map-station: <aqua>🚉 {station}
+map-distance: <gray>{distance} m de distância
+map-station-click: '<yellow>Clique: faça dele seu destino'
+map-station-dest: <green>✔ Seu destino
+map-zoom: '<yellow>Zoom: 1 campo = {scale} blocos'
+map-zoom-lore: <gray>Clique com o botão esquerdo mais para fora
+map-north: <yellow>Norte
+map-south: <yellow>▼ Sul
+map-west: <yellow>◀ Oeste
+map-east: <yellow>▶ Leste
+map-center: <yellow>Centro em mim
+map-stations: <gray>{count} estações, {rails} trilhos conhecidos
+map-center-clear: '<gray>Botão direito: destino limpo <aqua>{dest}'
+signal-red: <red>Sinal na parada <gray>- Seu carrinho espera
+signal-occupied: <red>Trilha à frente ocupada <gray>- Seu carrinho espera
+blocks-header: '<gold>Blocos abaixo e ao lado dos trilhos deste servidor:'
+blocks-speed: '<gray>• <yellow>{block}</yellow> Sob o trilho: velocidade máxima {kmh} km/h'
+blocks-slide: <gray>• <yellow>{block}</yellow>As carroças deslizam para fora da pista
+blocks-catch: '<gray>• <yellow>{block}</yellow>: Pega um carrinho fora da pista'
+blocks-jump: '<gray>• <yellow>{block}</yellow> Sob o último trilho: salto'
+blocks-bounce: <gray>• <yellow>{block}</yellow> Atrás da ponta da pista, a carroça volta
+blocks-shift: <gray>• <yellow>{block}</yellow> ao lado do trilho, para a pista paralela oposta
+blocks-spin: '<gray>• <yellow>{block}</yellow> Sob um trilho: gira o carrinho e envia de volta'
+blocks-elevator: '<gray>• <yellow>{block}</yellow> coluna no final da pista: elevador'
+blocks-signal: '<gray>• <yellow>{block}</yellow> Sob um trilho: sinal - carrinhos esperar enquanto é alimentado ou a pista
+  à frente está ocupada'
+blocks-float: <gray>• <yellow>{block}</yellow>As carroças nadam como um barco
+train-selected: <gray>Carrinho selecionado. Agora clique com o botão direito do mouse no carrinho que deve ser acoplado (com
+  a corrente, dentro de 30 s).
+train-coupled: <green>Casal. Seu trem tem <yellow>{cars}</yellow> Carrinhos.
+train-uncoupled: <gray>O carrinho está desacoplado.
+train-not-coupled: <gray>Este carrinho não está acoplado.
+train-too-far: <red>Os carrinhos estão muito distantes (no máximo {distance} blocos).
+train-full: <red>Uma carroça só pode ser acoplada na frente e atrás. Uma delas já tem dois acoplamentos.
+train-too-long: <red>Os trens podem ter no máximo {max} carrinhos.
+train-same: <red>Essas carroças já estão no mesmo trem.
+train-broke: <red>Um acoplamento quebrou - as carroças ficaram muito distantes
+info-train: '<gray>Trem: <yellow>{cars}</yellow> carrinhos acoplados <dark_gray>(/rails uncouple)'
+menu-travel: <aqua>Viaje para {player}
+menu-travel-lore: '<gray>Destino: estação <yellow>{station}</yellow>{distance} m de {player}'
+stations-header: '<gold>Estações: {shown} de {total} partidas'
+stations-entry: '<gray>• <aqua>{station}</aqua> {distance} m, XYZ: {x}, {y}, {z}'
+stations-empty: <gray>Nenhuma estação conhecida neste mundo.
+stations-hint: '<gray>Pesquisar: <yellow>/rails stations NAME</yellow> · Viajar: <yellow>/rails dest NAME</yellow>'
+commands:
+  rails:
+    description: 'Minecarts: destino, mapa de rede, informações do carrinho e blocos de carrinho'
+    aliases: []
+    sub:
+      dest:
+        name: dest
+        aliases: []
+        description: Mostrar ou definir seu destino - interruptores enviar seu carrinho lá; claro remove-lo
+        args:
+          name: STATION|clear
+      line:
+        name: line
+        aliases: []
+        description: "Gerenciar linhas e horários ordenados"
+        args:
+          action: "AÇÃO"
+      departures:
+        name: departures
+        aliases: []
+        description: "Mostrar partidas programadas da estação"
+        args:
+          station: "ESTAÇÃO"
+      map:
+        name: map
+        aliases: []
+        description: Abra o mapa da rede
+      stations:
+        name: stations
+        aliases: []
+        description: Encontre estações conhecidas neste mundo, mais próximas primeiro
+        args:
+          search: SEARCH
+      favorite:
+        name: favorite
+        aliases: []
+        description: Salve uma estação conhecida como favorita
+        args:
+          name: STATION
+      favorites:
+        name: favorites
+        aliases: []
+        description: Abra seus favoritos para este mundo
+      ticket:
+        name: ticket
+        aliases: []
+        description: "Seu bilhete diário; compre 24 horas de viagens grátis"
+        sub:
+          buy:
+            name: buy
+            aliases: []
+            description: "Comprar um bilhete diário"
+      fare:
+        name: fare
+        aliases: []
+        description: "Admin: ver ou definir tarifas das estações"
+        args:
+          station: "STATION"
+          amount: "AMOUNT"
+      info:
+        name: info
+        aliases: []
+        description: Velocidade, destino, dono e trem do seu carrinho
+      blocks:
+        name: blocks
+        aliases: []
+        description: Blocos de velocidade e carrinhos deste servidor
+      uncouple:
+        name: uncouple
+        aliases: []
+        description: Desagrupe o carro que você monta ou olhe do trem
+      reload:
+        name: reload
+        aliases: []
+        description: Recarregar arquivos de configuração e linguagem
+favorites-location: '<gray>Distância horizontal: {distance} m · XYZ: {x}, {y}, {z}'
+
+fare:
+  disabled: "<gray>Tarifas estão desligadas neste servidor."
+  no-economy: "<red>Bilhetes precisam de um plugin de economia."
+  too-poor: "<red>Um bilhete diário custa {price}."
+  storage: "<red>Não foi possível salvar as tarifas; nada mudou."
+  paid: "<gray>🎫 Tarifa {fare} paga em {station}."
+  unpaid: "<red>🎫 A tarifa em {station} é {fare}. Compre um bilhete diário ({ticket}) com /rails ticket buy ou embarque de novo com dinheiro suficiente."
+  ticket-valid: "<green>🎫 Seu bilhete diário vale por mais {hours} hora(s)."
+  ticket-none: "<gray>🎫 Sem bilhete diário. /rails ticket buy – {price} por 24 horas de viagens grátis."
+  ticket-bought: "<green>🎫 Bilhete comprado por {price}: viagens grátis por {hours} hora(s)."
+  list-none: "<gray>Nenhuma estação cobra tarifa."
+  row: "<yellow>{station}</yellow> <gray>– {fare}"
+  usage: "<gray>/rails fare [ESTAÇÃO] [VALOR|off]"
+  set: "<green>Tarifa em {station}: {fare}."
+  cleared: "<green>{station} voltou a ser grátis."
+panel-station: "Estação"
+panel-distance: "Distância"
+panel-location: "Coordenadas"
+panel-destination: "Definir destino"
+panel-remove: "Remover dos favoritos"
+panel-remove-confirm: "Remover {station} dos seus favoritos?"
+panel-pick: "Selecione uma estação para ver os detalhes."
+panel-search: "Buscar estações"
+panel-stations: "Estações"
+panel-map: "Mapa"
+panel-refresh: "Atualizar"
+panel-clear: "Limpar destino"
+panel-zoom: "Zoom"
+panel-unavailable: "Indisponível"

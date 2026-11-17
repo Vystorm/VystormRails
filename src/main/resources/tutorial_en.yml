@@ -1,0 +1,17 @@
+title: 'Rails'
+permission: vystormrails.use
+pages:
+  - title: 'Your rail network'
+    gif: "tutorial/network.gif"
+    text: |
+      /rails or the menu (/vmenu → World) shows the network map with stations and your cart.
+      Type /rails help to see every command.
+  - title: 'Travel to a destination'
+    gif: "tutorial/travel.gif"
+    text: |
+      Sit in a minecart and use /rails dest STATION. Switches steer you automatically. Save stations with /rails favorite.
+  - title: 'Cart blocks'
+    gif: "tutorial/blocks.gif"
+    text: |
+      Blocks under the rails change the ride: gold and diamond blocks speed you up, soul sand slows you down. /rails blocks lists all of them.
+      Type /rails help to see every command.

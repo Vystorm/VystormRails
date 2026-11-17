@@ -1,0 +1,204 @@
+line-failed: "<yellow>The train line stopped: a line or station is unavailable."
+line-usage: "<yellow>/rails line create ID CYCLE_SECONDS Station@OFFSET|Station@OFFSET; list, show ID, assign ID, stop, delete ID"
+line-saved: "<yellow>Saved line {line}."
+line-exists: "<yellow>That line already exists in this world."
+line-missing: "<yellow>Line or station not found. Every stop must be a known station."
+line-stopped: "<yellow>Scheduled service stopped; cart destination cleared."
+line-deleted: "<yellow>Deleted line {line}."
+line-assigned: "<yellow>Cart assigned to {line}. Push it towards its first station."
+line-save-failed: "<yellow>Timetables could not be saved or loaded. Existing data is preserved."
+line-cart-denied: "<yellow>You need vystormrails.train and a leading cart that you own or may manage as an administrator."
+line-preview: "<yellow>{line}: cycle {period}s — {stops}"
+line-board: "<yellow>Scheduled departures at {station}"
+line-departure: "<yellow>{line}: in {seconds}s → {next}"
+line-board-empty: "<yellow>No scheduled lines serve this station."
+favorites-title: "<yellow>Favorite stations"
+favorites-empty: "<yellow>No favorites. Use /rails favorite NAME"
+favorites-missing: "<yellow>Station is no longer known in this world."
+favorites-remove: "<yellow>Right-click: remove favorite"
+favorites-added: "<yellow>Saved {station} as a favorite."
+favorites-exists: "<yellow>{station} is already a favorite."
+favorites-full: "<yellow>At most {limit} favorites per world. Remove one in /rails favorites."
+favorites-removed: "<yellow>Removed favorite {station}."
+speedometer: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max}"
+speedometer-dest: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max} · <aqua>➜ {dest}"
+speedometer-dest-distance: "<gold>⚡ <yellow>{kmh}</yellow> km/h <gray>· max {max} · <aqua>➜ {dest}</aqua> <yellow>{distance} m"
+arrival-title: "<gold>🚉 {station}"
+arrival-subtitle: "<green>You have reached your destination"
+arrival-subtitle-cleared: "<green>You have reached your destination <gray>– destination cleared"
+station-arrive: "<gold>🚉 <yellow>{station}</yellow> <gray>– departure in {seconds} s"
+station-countdown: "<gray>Departure in <yellow>{seconds}</yellow> s"
+station-unnamed: "Station"
+dest-set: "<green>Destination: <aqua>{dest}"
+dest-show: "<gray>Your destination: <aqua>{dest}</aqua> <dark_gray>(/rails dest clear)"
+dest-none: "<gray>No destination. Set one with <yellow>/rails dest NAME</yellow>; switches send your cart there."
+dest-cleared: "<gray>Destination cleared."
+sign-header: "<dark_aqua>{header}"
+sign-created: "<green>Rail sign created: <yellow>{action}"
+sign-invalid: "<red>Unknown rail sign. Line 2: station, speed, dest, switch, collect or freight."
+sign-denied: "<red>You may not create rail signs."
+info: "<gold>Minecart <gray>– speed <yellow>{kmh}</yellow> km/h, max {max} km/h, own top speed {speed}, destination <aqua>{dest}</aqua>, owner {owner}"
+no-cart: "<red>Ride a minecart or look at one."
+players-only: "<red>Only players can do this."
+denied: "<red>You lack permission for this."
+reloaded: "<green>Vystorm Rails reloaded ({blocks} speed blocks)."
+menu-rails: "Rail network"
+menu-rails-desc: "<gray>Destinations, stations and your cart on the map"
+map-title: "Rail network"
+map-you: "<green>You"
+map-you-dest: "<gray>Destination: <aqua>{dest}"
+map-coords: "<dark_gray>{x}, {z}"
+map-rail: "<gray>Rail"
+map-station: "<aqua>🚉 {station}"
+map-distance: "<gray>{distance} m away"
+map-station-click: "<yellow>Click: make it your destination"
+map-station-dest: "<green>✔ Your destination"
+map-zoom: "<yellow>Zoom: 1 field = {scale} blocks"
+map-zoom-lore: "<gray>Left-click closer, right-click further out"
+map-north: "<yellow>▲ North"
+map-south: "<yellow>▼ South"
+map-west: "<yellow>◀ West"
+map-east: "<yellow>▶ East"
+map-center: "<yellow>Centre on me"
+map-stations: "<gray>{count} stations, {rails} rails known"
+map-center-clear: "<gray>Right-click: clear destination <aqua>{dest}"
+signal-red: "<red>⛔ Signal on stop <gray>– your cart waits"
+signal-occupied: "<red>⛔ Track ahead occupied <gray>– your cart waits"
+blocks-header: "<gold>Blocks under and beside the rails on this server:"
+blocks-speed: "<gray>• <yellow>{block}</yellow> under the rail: top speed {kmh} km/h"
+blocks-slide: "<gray>• <yellow>{block}</yellow>: carts slide off the track (A/D steers, S brakes)"
+blocks-catch: "<gray>• <yellow>{block}</yellow>: catches a cart off the track"
+blocks-jump: "<gray>• <yellow>{block}</yellow> under the last rail: jump"
+blocks-bounce: "<gray>• <yellow>{block}</yellow> behind the track end: bounces the cart back"
+blocks-shift: "<gray>• <yellow>{block}</yellow> beside the rail: onto the parallel track opposite"
+blocks-spin: "<gray>• <yellow>{block}</yellow> under a rail: spins the cart and sends it back"
+blocks-elevator: "<gray>• <yellow>{block}</yellow> column at the track end: elevator"
+blocks-signal: "<gray>• <yellow>{block}</yellow> under a rail: signal – carts wait while it is powered or the track ahead is occupied"
+blocks-float: "<gray>• <yellow>{block}</yellow>: carts swim on it like a boat"
+train-selected: "<gray>Cart selected. Now right-click the cart it should be coupled to (with the chain, within 30 s)."
+train-coupled: "<green>Coupled. Your train has <yellow>{cars}</yellow> carts."
+train-uncoupled: "<gray>Cart uncoupled."
+train-not-coupled: "<gray>This cart is not coupled."
+train-too-far: "<red>The carts are too far apart (at most {distance} blocks)."
+train-full: "<red>A cart can only be coupled at its front and back – one of them already has two couplings."
+train-too-long: "<red>Trains may have at most {max} carts."
+train-same: "<red>These carts are already in the same train."
+train-broke: "<red>⛓ A coupling broke – the carts got too far apart"
+info-train: "<gray>Train: <yellow>{cars}</yellow> coupled carts <dark_gray>(/rails uncouple)"
+menu-travel: "<aqua>Travel to {player}"
+menu-travel-lore: "<gray>Destination: station <yellow>{station}</yellow>, {distance} m from {player}"
+
+# /rails through Vystorm Core: description, help and tab completion per player. "aliases" under commands.rails are extra
+# root commands (server-wide, the admin chooses which languages: Core config commands.localized-aliases); "name" and
+# "aliases" of a subcommand are accepted in every language, English always works.
+stations-header: "<gold>Stations: {shown} of {total} matches (nearest first)"
+stations-entry: "<gray>• <aqua>{station}</aqua> — {distance} m, XYZ: {x}, {y}, {z}"
+stations-empty: "<gray>No known named stations match in this world."
+stations-hint: "<gray>Search: <yellow>/rails stations NAME</yellow> · Travel: <yellow>/rails dest NAME</yellow>"
+commands:
+  rails:
+    description: "Minecarts: destination, network map, cart info and cart blocks"
+    aliases: []
+    sub:
+      dest:
+        name: dest
+        aliases: []
+        description: "Show or set your destination – switches send your cart there; clear removes it"
+        args:
+          name: "STATION|clear"
+      line:
+        name: line
+        aliases: []
+        description: "Manage train lines and ordered timetables"
+        args:
+          action: "ACTION"
+      departures:
+        name: departures
+        aliases: []
+        description: "Show scheduled station departures"
+        args:
+          station: "STATION"
+      map:
+        name: map
+        aliases: []
+        description: "Open the network map"
+      stations:
+        name: stations
+        aliases: []
+        description: "Find known stations in this world, nearest first"
+        args:
+          search: "SEARCH"
+      favorite:
+        name: favorite
+        aliases: []
+        description: "Save a known station as a personal favorite"
+        args:
+          name: "STATION"
+      favorites:
+        name: favorites
+        aliases: []
+        description: "Open your favorites for this world"
+      ticket:
+        name: ticket
+        aliases: []
+        description: "Your day ticket; buy one for 24 hours of free rides"
+        sub:
+          buy:
+            name: buy
+            aliases: []
+            description: "Buy a day ticket"
+      fare:
+        name: fare
+        aliases: []
+        description: "Admin: show or set station fares"
+        args:
+          station: "STATION"
+          amount: "AMOUNT"
+      info:
+        name: info
+        aliases: []
+        description: "Speed, destination, owner and train of your cart"
+      blocks:
+        name: blocks
+        aliases: []
+        description: "Speed blocks and cart blocks of this server"
+      uncouple:
+        name: uncouple
+        aliases: []
+        description: "Uncouple the cart you ride or look at from its train"
+      reload:
+        name: reload
+        aliases: []
+        description: "Reload config and language files"
+
+favorites-location: "<gray>Horizontal distance: {distance} m · XYZ: {x}, {y}, {z}"
+
+fare:
+  disabled: "<gray>Fares are switched off on this server."
+  no-economy: "<red>Tickets need an economy plugin."
+  too-poor: "<red>A day ticket costs {price}."
+  storage: "<red>Fares could not be saved; nothing was changed."
+  paid: "<gray>🎫 Fare {fare} paid at {station}."
+  unpaid: "<red>🎫 The fare at {station} is {fare}. Buy a day ticket ({ticket}) with /rails ticket buy or get on again with enough money."
+  ticket-valid: "<green>🎫 Your day ticket is valid for {hours} more hour(s)."
+  ticket-none: "<gray>🎫 No day ticket. /rails ticket buy – {price} for 24 hours of free rides."
+  ticket-bought: "<green>🎫 Day ticket bought for {price}: free rides for {hours} hour(s)."
+  list-none: "<gray>No station charges a fare."
+  row: "<yellow>{station}</yellow> <gray>– {fare}"
+  usage: "<gray>/rails fare [STATION] [AMOUNT|off]"
+  set: "<green>Fare at {station}: {fare}."
+  cleared: "<green>{station} is free again."
+panel-station: "Station"
+panel-distance: "Distance"
+panel-location: "Coordinates"
+panel-destination: "Set destination"
+panel-remove: "Remove favorite"
+panel-remove-confirm: "Remove {station} from your favorites?"
+panel-pick: "Select a station to see its details."
+panel-search: "Search stations"
+panel-stations: "Stations"
+panel-map: "Map"
+panel-refresh: "Refresh"
+panel-clear: "Clear destination"
+panel-zoom: "Zoom"
+panel-unavailable: "Unavailable"
