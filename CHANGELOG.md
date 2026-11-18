@@ -1,3 +1,16 @@
+## 1.21.0 — 2026-11-18
+
+- Requires Vystorm Core 0.65.0. Update Core before you update this plugin.
+- Every feature can now be switched on and off. All switches are listed in `/vadmin features` with a one-line description in all seven languages, and a change applies at once (only `tutorial.enabled` needs a restart). Core adds the new switches to your existing `config.yml` with their comments; a missing switch counts as on, so nothing changes until you switch something off.
+- New switches for riding: `speed-blocks.enabled`, and one switch per cart block: `cart-blocks.slide.enabled` (ice and honey), `jump`, `bounce`, `shift`, `spin`, `elevator`, `float` (lava boat) and `signal`. The word `none` and empty lists keep their meaning.
+- New switches for the network: `signs.enabled` (off: no `[rails]` sign acts on carts), `destinations.enabled` (off: carts ride without a destination), `map.enabled`, `stations.enabled`, `favorites.enabled`, `lines.enabled` (off: carts on a line ride like any other cart).
+- New switches for tools: `info.enabled` (`/rails info`, `/rails blocks`), `tutorial.enabled`.
+- Older keys keep their names and now also show in `/vadmin features`: `speed.slow-before-curves`, `collisions.push-mobs`, `collisions.pass-through-players`, `collisions.empty-carts-pick-up-mobs`, `pickup.on-exit`, `pickup.on-break`, `arrival.title`, `arrival.clear-destination`, `routing.player-menu`, `cart-blocks.spin.reverse`, `cart-blocks.float.visual-fire`.
+- A command of a switched-off feature answers "This feature is switched off on this server." It is also gone from tab completion and help while the switch is off. The map entry in the Core main menu, the favorites page and "Travel to" in the player menu disappear while their switch is off. Stations, lines, favorites, fares and destinations are kept.
+- Placeholders: the plugin registers the namespace `rails` with 11 values (destination, speed, distance, day ticket, favorites, stations, fares). Examples: `%vystorm_rails_speed_kmh%` and `%vystorm_rails_fare_central%`. They work in Vystorm texts and, through PlaceholderAPI, in other plugins. A value of a switched-off feature is empty.
+- Tab completion and help follow a switch at once, without registering the command again.
+- README: it now names all seven languages and says what the build and the recorded Spigot tests prove.
+
 ## 1.20.0 — 2026-11-17
 
 - Requires Vystorm Core 0.64.0 or newer. Update Core before you update this plugin.

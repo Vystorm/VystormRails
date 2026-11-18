@@ -123,6 +123,7 @@ class RailsCommandsTest {
     @Test void stationSearchRequiresPlayerAndUsePermission() throws Exception {
         RailsPlugin rails = TestCore.attach(mock(RailsPlugin.class));
         CommandRegistration registration = registration(rails);
+        clearInvocations(rails); // building the tree asks which subcommands are switched off (1.21.0)
         registration.execute(player(Locale.US), "rails", new String[]{"stations"});
         var console = mock(org.bukkit.command.ConsoleCommandSender.class);
         when(console.hasPermission(anyString())).thenReturn(true);

@@ -103,14 +103,19 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     private int lookahead = 3;
     private boolean slowBeforeCurves = true, pushMobs = true, passPlayers = true, emptyPickup = false;
     private boolean returnOnExit = true, returnOnBreak = true, speedometer = true, arrivalTitle = true, arrivalClear = true;
+    /**
+     * signs.enabled, destinations.enabled and lines.enabled, read in load() because they are asked on every cart move.
+     * Kept as "off" flags so a plugin object without load() (tests) behaves as before: everything on.
+     */
+    private boolean signsOff, destinationsOff, linesOff;
 
     /** The Core hub for the classes of this plugin (they get the plugin in their constructor). */
     Vystorm.vystorm_core.API core() { return core; }
 
     @Override
     public void onEnable() {
-        if (!Vystorm.vystorm_core.CoreApi.atLeast("0.64.0")) {
-            getLogger().severe("Vystorm Core 0.64.0 or newer is required; please update Core first.");
+        if (!Vystorm.vystorm_core.CoreApi.atLeast("0.65.0")) {
+            getLogger().severe("Vystorm Core 0.65.0 or newer is required; please update Core first.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -120,7 +125,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         cartBlocks.reportCompatibility(getLogger());
         core.admin().updates().spigot(this, 140076);
         saveDefaultConfig();
-        lang = core.lang().register(this); try { core.registerTutorial(this); } catch (RuntimeException noTutorial) { getLogger().fine("Tutorial not registered: " + noTutorial); }
+        lang = core.lang().register(this); try { if (RailSwitches.on(getConfig(), RailSwitches.TUTORIAL)) core.registerTutorial(this); } catch (RuntimeException noTutorial) { getLogger().fine("Tutorial not registered: " + noTutorial); }
         speedKey = new NamespacedKey(this, "speed");
         destKey = new NamespacedKey(this, "dest");
         ownerKey = new NamespacedKey(this, "owner");
@@ -136,7 +141,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new NetworkMenu.Clicks(this), this);
         if (!registerPanels()) try {
             core.gui().registerMenu(this, "network", lang.ref("menu-rails"), org.bukkit.Material.MINECART,
-                    p -> p.hasPermission("vystormrails.use"), this::openNetwork,
+                    p -> RailSwitches.on(getConfig(), RailSwitches.MAP) && p.hasPermission("vystormrails.use"), this::openNetwork,
                     Vystorm.vystorm_core._uiMethods.menu.MenuCategory.WORLD.group(), lang.ref("menu-rails-desc"));
         } catch (RuntimeException noMainMenu) { getLogger().fine("Vystorm Core main menu not available: " + noMainMenu); }
         getServer().getPluginManager().registerEvents(new FavoritesMenu.Clicks(), this);
@@ -156,6 +161,10 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         tasks.timer(6000L, 6000L, () -> saveNetworks(true));
         if (lines != null) lines.start();
         core.settings().config().register(this, "config.yml", this::load);
+        describeSwitches();
+        try {
+            RailsPlaceholders.register(core.placeholders(), this, lang, placeholderSource());
+        } catch (RuntimeException unavailable) { getLogger().warning("Placeholders not registered: " + unavailable); }
         core.command().register(this, lang, commandSpec(this));
         RailsMenuEntries.register(this);
     }
@@ -196,8 +205,49 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     void openNetwork(Player player) { openMenu(player, false); }
     void openFavorites(Player player) { openMenu(player, true); }
 
+    /** Answers with the shared off message when a feature is switched off (1.21.0); true when it is off. */
+    boolean off(CommandSender sender, String key) {
+        if (RailSwitches.on(getConfig(), key)) return false;
+        lang.send(sender, RailSwitches.OFF);
+        return true;
+    }
+
+    /** One-line descriptions for /vadmin features and the older booleans declared as switches (1.21.0). */
+    private void describeSwitches() {
+        try {
+            var config = core.settings().config();
+            for (String path : RailSwitches.all()) {
+                String description = lang.ref(RailSwitches.descriptionKey(path));
+                if (RailSwitches.DECLARED.contains(path)) config.feature(this, path, null, description);
+                else config.label(this, path, null, description);
+            }
+            config.activation(this, RailSwitches.TUTORIAL, Vystorm.vystorm_core._uiMethods.settings.SettingPolicy.Activation.RESTART);
+        } catch (RuntimeException unavailable) { getLogger().fine("Switch descriptions unavailable: " + unavailable); }
+    }
+
+    /** Scheduled lines while lines.enabled is on, else null (1.21.0): carts then ride as if no line were set. */
+    /** What the rails placeholders read, looked up at call time. */
+    RailsPlaceholders.Source placeholderSource() {
+        return new RailsPlaceholders.Source() {
+            public boolean destinationsOn() { return !destinationsOff; }
+            public boolean faresOn() { return faresEnabled(); }
+            public boolean favoritesOn() { return RailSwitches.on(getConfig(), RailSwitches.FAVORITES); }
+            public boolean stationsOn() { return RailSwitches.on(getConfig(), RailSwitches.STATIONS); }
+            public String destination(Player player) {
+                return player.getVehicle() instanceof Minecart cart ? RailsPlugin.this.destination(cart) : RailsPlugin.this.destination(player);
+            }
+            public Network network(World world) { return RailsPlugin.this.network(world); }
+            public long ticketUntil(UUID player, long now) { return fares == null ? 0 : fares.ticket(player, now); }
+            public double fare(String station) { return fares == null ? 0 : fares.fare(station); }
+            public int favorites(Player player) { return Favorites.read(player, player.getWorld().getUID()).size(); }
+        };
+    }
+
+    TrainLines activeLines() { return linesOff ? null : lines; }
+
     private void openMenu(Player player, boolean favorites) {
         if (!isEnabled() || !player.hasPermission("vystormrails.use")) return;
+        if (off(player, RailSwitches.MAP) || favorites && off(player, RailSwitches.FAVORITES)) return;
         if (panels != null) {
             try { if (panels.open(player, favorites)) return; }
             catch (RuntimeException failure) { getLogger().fine("Rail panel could not open; using chest menu: " + failure); }
@@ -211,7 +261,9 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     private void load() {
+        List<Boolean> listed = listing(getConfig());
         reloadConfig();
+        refreshIfChanged(listed);
         if (!getConfig().contains("favorites.max-per-world", true)) {
             getConfig().set("favorites.max-per-world", 18);
             saveConfig();
@@ -222,10 +274,13 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         cap = Math.clamp(ConfigNumbers.read(getConfig(), "speed.cap", 1.5), 0.1, 4.0);
         defaultSpeed = Math.clamp(ConfigNumbers.read(getConfig(), "speed.default", 0.4), 0.05, cap);
         slowBeforeCurves = getConfig().getBoolean("speed.slow-before-curves", true);
+        signsOff = !RailSwitches.on(getConfig(), RailSwitches.SIGNS);
+        destinationsOff = !RailSwitches.on(getConfig(), RailSwitches.DESTINATIONS);
+        linesOff = !RailSwitches.on(getConfig(), RailSwitches.LINES);
         curveSpeed = Math.clamp(ConfigNumbers.read(getConfig(), "speed.curve-speed", 0.4), 0.05, cap);
         lookahead = Math.clamp(getConfig().getInt("speed.lookahead", 3), 1, 8);
         blockSpeeds.clear();
-        var blocks = getConfig().getConfigurationSection("speed.blocks");
+        var blocks = RailSwitches.on(getConfig(), RailSwitches.SPEED_BLOCKS) ? getConfig().getConfigurationSection("speed.blocks") : null;
         if (blocks != null) {
             for (String key : blocks.getKeys(false)) {
                 double speed = blocks.getDouble(key);
@@ -376,6 +431,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
                 else data.set(speedKey, PersistentDataType.DOUBLE, Math.min(sign.speed(), cap));
             }
             case DEST -> {
+                if (destinationsOff) return;
                 data.set(destKey, PersistentDataType.STRING, sign.text());
                 for (Entity rider : cart.getPassengers())
                     if (rider instanceof Player player) core.compat().platform().sendActionBar(player, lang.component(player, "dest-set", "dest", sign.text()));
@@ -394,8 +450,9 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
                 core.compat().passengers().teleportRetainingPassengers(cart, center);
                 boolean arrived = arrived(sign.text(), destination(cart));
                 long until = System.currentTimeMillis() + sign.seconds() * 1000L;
-                boolean scheduled = lines != null && lines.bound(cart);
-                long departure = lines == null ? -1 : lines.arrive(cart, sign.text(), until, onwards, speed);
+                TrainLines active = activeLines();
+                boolean scheduled = active != null && active.bound(cart);
+                long departure = active == null ? -1 : active.arrive(cart, sign.text(), until, onwards, speed);
                 if (departure == 0) return;
                 holds.put(cart.getUniqueId(), new Hold(departure > 0 ? departure : until, onwards, speed, sign.text()));
                 long waitSeconds = Math.max(0, ((departure > 0 ? departure : until) - System.currentTimeMillis() + 999) / 1000);
@@ -485,7 +542,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
 
     /** {@code /rails ticket [buy]}: shows the day ticket or buys one. */
     void ticket(Player player, boolean buy) {
-        if (!faresEnabled()) { lang.send(player, "fare.disabled"); return; }
+        if (!faresEnabled()) { lang.send(player, RailSwitches.OFF); return; }
         var economy = economy();
         long now = System.currentTimeMillis();
         long until = fares.ticket(player.getUniqueId(), now);
@@ -549,7 +606,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
             }
             it.remove();
             if (hold.station() != null) chargeFares(cart, hold.station());
-            if (lines != null && !lines.depart(cart)) continue;
+            if (activeLines() != null && !activeLines().depart(cart)) continue;
             launch(cart, hold.direction(), hold.speed());
             for (Entity rider : cart.getPassengers())
                 if (rider instanceof Player player) player.playSound(player.getLocation(), Sound.ENTITY_MINECART_RIDING, 0.4f, 1.4f);
@@ -592,6 +649,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
 
     /** Signs for a rail: two blocks below it, or on a side of the block that carries it. */
     private List<RailSign> signs(Block rail) {
+        if (signsOff) return List.of();   // signs.enabled false (1.21.0): no sign acts on carts
         List<RailSign> found = new ArrayList<>(1);
         Block support = rail.getRelative(BlockFace.DOWN);
         sign(support.getRelative(BlockFace.DOWN)).ifPresent(found::add);
@@ -620,6 +678,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSignChange(SignChangeEvent event) {
         signCache.remove(SignKey.of(core.compat().platform(), event.getBlock()));
+        if (signsOff) return;
         String first = PlainTextComponentSerializer.plainText().serialize(Optional.ofNullable(SignText.line(event, 0)).orElse(Component.empty())).strip();
         if (!header.equalsIgnoreCase(first)) return;
         Player player = event.getPlayer();
@@ -720,7 +779,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         return false;
     }
 
-    String destination(Player player) { return player.getPersistentDataContainer().get(destKey, PersistentDataType.STRING); }
+    String destination(Player player) { return destinationsOff ? null : player.getPersistentDataContainer().get(destKey, PersistentDataType.STRING); }
 
     /** The named station closest to the player in their world, or null when there is none. */
     Network.Station nearestStation(Player player) {
@@ -733,6 +792,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
 
     /** Sets or (null) clears the player's destination and that of the cart they ride. */
     void setDestination(Player player, String dest) {
+        if (off(player, RailSwitches.DESTINATIONS)) return;
         Minecart cart = player.getVehicle() instanceof Minecart riding ? riding : null;
         if (dest == null) {
             player.getPersistentDataContainer().remove(destKey);
@@ -756,7 +816,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEnter(VehicleEnterEvent event) {
         if (!(event.getVehicle() instanceof Minecart cart) || !(event.getEntered() instanceof Player player)) return;
-        if (lines != null && lines.bound(cart)) return;
+        if (activeLines() != null && activeLines().bound(cart)) return;
         String dest = player.getPersistentDataContainer().get(destKey, PersistentDataType.STRING);
         if (dest != null) cart.getPersistentDataContainer().set(destKey, PersistentDataType.STRING, dest);
     }
@@ -861,6 +921,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
 
     /** The cart's destination, else that of a rider; in a train the first one found along the train. */
     String destination(Minecart cart) {
+        if (destinationsOff) return null;   // destinations.enabled false (1.21.0): carts ride without a destination
         String dest = ownDestination(cart);
         if (dest == null && trains.coupled(cart.getUniqueId()))
             for (UUID id : trains.train(cart.getUniqueId()))
@@ -898,12 +959,34 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
      * {@code /rails} as a Vystorm Core command tree: names, aliases, usage and help come from {@code commands.rails.*}
      * in the language files (e.g. {@code /schienen ziel}, {@code /铁轨 目的地}); English always works.
      */
+    /**
+     * Lists a subcommand in tab completion and help only while its switch is on (1.21.0). Core asks at every
+     * completion and reads the current config, so a change applies at once; the command still answers the off
+     * message. Without a plugin (tests) the node is unchanged.
+     */
+    private static CommandSpec.Builder hide(RailsPlugin p, CommandSpec.Builder sub, String key) {
+        return p == null ? sub : sub.visibleWhen(() -> RailSwitches.on(p.getConfig(), key));
+    }
+
+    /** The switches that decide what {@code /rails} lists in tab completion and help. */
+    static final List<String> LISTED = List.of(RailSwitches.DESTINATIONS, RailSwitches.MAP, RailSwitches.LINES,
+            RailSwitches.STATIONS, RailSwitches.FAVORITES, "fares.enabled", RailSwitches.INFO, "trains.enabled");
+
+    static List<Boolean> listing(org.bukkit.configuration.ConfigurationSection config) {
+        return LISTED.stream().map(key -> RailSwitches.on(config, key)).toList();
+    }
+
+    /** After a reload: sends players their command list again when a listed switch changed (Core 0.65.0). */
+    void refreshIfChanged(List<Boolean> before) {
+        if (core != null && !before.equals(listing(getConfig()))) core.command().refresh();
+    }
+
     static CommandSpec commandSpec(RailsPlugin p) {
         return CommandSpec.command("rails")
                 .permission("vystormrails.use")
                 .aliases("vrails", "cart")
                 .executes(ctx -> { if (ctx.sender() instanceof Player player) p.openNetwork(player); else ctx.sender().sendMessage("/rails help"); })
-                .sub("dest", s -> s.aliases("destination").playerOnly()
+                .sub("dest", s -> hide(p, s, RailSwitches.DESTINATIONS).aliases("destination").playerOnly()
                         .arg(Arg.greedy("name").optional().suggests((ctx, prefix) -> {
                             List<String> options = new ArrayList<>(List.of(ctx.valueName("clear")));
                             for (Network.Station station : p.network(ctx.player().getWorld()).stations())
@@ -911,34 +994,37 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
                             return options;
                         }))
                         .executes(ctx -> p.destination(ctx.player(), ctx.get("name"), ctx.keyword(ctx.get("name"), "clear") != null)))
-                .sub("map", s -> s.playerOnly().executes(ctx -> p.openNetwork(ctx.player())))
-                .sub("line", s -> s.playerOnly().arg(Arg.greedy("action").optional().suggests((ctx, prefix) -> {
+                .sub("map", s -> hide(p, s, RailSwitches.MAP).playerOnly().executes(ctx -> p.openNetwork(ctx.player())))
+                .sub("line", s -> hide(p, s, RailSwitches.LINES).playerOnly().arg(Arg.greedy("action").optional().suggests((ctx, prefix) -> {
                     String[] raw = ctx.rawArgs();
                     return TrainLines.suggest(raw.length - 2, raw.length > 2 ? raw[1] : null, p.lines == null ? List.of() : p.lines.lineIds(ctx.player().getWorld()));
                 })).executes(ctx -> {
+                    if (p.off(ctx.player(), RailSwitches.LINES)) return;
                     if (p.lines == null) ctx.reply("line-save-failed"); else p.lines.command(ctx.player(), ctx.get("action"));
                 }))
-                .sub("departures", s -> s.playerOnly().arg(Arg.greedy("station").optional().suggests((ctx, prefix) ->
+                .sub("departures", s -> hide(p, s, RailSwitches.LINES).playerOnly().arg(Arg.greedy("station").optional().suggests((ctx, prefix) ->
                         p.network(ctx.player().getWorld()).stations().stream().map(Network.Station::name)
                                 .filter(name -> !name.isBlank()).distinct().toList())).executes(ctx -> {
+                    if (p.off(ctx.player(), RailSwitches.LINES)) return;
                     if (p.lines == null) ctx.reply("line-save-failed"); else p.lines.departures(ctx.player(), ctx.get("station"));
                 }))
-                .sub("stations", s -> s.playerOnly().arg(Arg.greedy("search").optional())
+                .sub("stations", s -> hide(p, s, RailSwitches.STATIONS).playerOnly().arg(Arg.greedy("search").optional())
                         .executes(ctx -> p.stations(ctx.player(), ctx.get("search"))))
-                .sub("favorite", s -> s.playerOnly().arg(Arg.greedy("name").suggests((ctx, prefix) ->
+                .sub("favorite", s -> hide(p, s, RailSwitches.FAVORITES).playerOnly().arg(Arg.greedy("name").suggests((ctx, prefix) ->
                         p.network(ctx.player().getWorld()).stations().stream().map(Network.Station::name)
                                 .filter(name -> !name.isBlank()).distinct().toList()))
                         .executes(ctx -> p.favorite(ctx.player(), ctx.get("name"))))
-                .sub("favorites", s -> s.playerOnly().executes(ctx -> p.openFavorites(ctx.player())))
-                .sub("ticket", s -> s.permission("vystormrails.ticket").playerOnly().executes(ctx -> p.ticket(ctx.player(), false))
+                .sub("favorites", s -> hide(p, s, RailSwitches.FAVORITES).playerOnly().executes(ctx -> p.openFavorites(ctx.player())))
+                .sub("ticket", s -> hide(p, s, "fares.enabled").permission("vystormrails.ticket").playerOnly().executes(ctx -> p.ticket(ctx.player(), false))
                         .sub("buy", b -> b.executes(ctx -> p.ticket(ctx.player(), true))))
                 .sub("fare", s -> s.permission("vystormrails.fare").arg(Arg.word("station").optional().suggests((ctx, prefix) -> ctx.sender() instanceof Player player
                                 ? p.network(player.getWorld()).stations().stream().map(Network.Station::name).filter(name -> !name.isBlank() && !name.contains(" ")).distinct().toList() : List.of()))
                         .arg(Arg.word("amount").optional().suggests(List.of("off", "5", "10")))
                         .executes(ctx -> p.fare(ctx.sender(), ctx.get("station"), ctx.get("amount"))))
-                .sub("info", s -> s.playerOnly().executes(ctx -> p.info(ctx.player())))
-                .sub("blocks", s -> s.executes(ctx -> p.blocks(ctx.sender())))
-                .sub("uncouple", s -> s.permission("vystormrails.train").playerOnly().executes(ctx -> {
+                .sub("info", s -> hide(p, s, RailSwitches.INFO).playerOnly().executes(ctx -> p.info(ctx.player())))
+                .sub("blocks", s -> hide(p, s, RailSwitches.INFO).executes(ctx -> p.blocks(ctx.sender())))
+                .sub("uncouple", s -> hide(p, s, "trains.enabled").permission("vystormrails.train").playerOnly().executes(ctx -> {
+                    if (p.off(ctx.player(), "trains.enabled")) return;
                     Minecart cart = p.cartOf(ctx.player());
                     if (cart == null) throw ctx.fail("no-cart");
                     ctx.reply(p.trains.uncouple(cart) ? "train-uncoupled" : "train-not-coupled");
@@ -961,6 +1047,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     void favorite(Player player, String name) {
+        if (off(player, RailSwitches.FAVORITES)) return;
         Network.Station station = favoriteStation(player, name);
         if (station == null) { lang.send(player, "favorites-missing"); return; }
         UUID world = player.getWorld().getUID();
@@ -975,6 +1062,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     void stations(Player player, String query) {
+        if (off(player, RailSwitches.STATIONS)) return;
         Location location = player.getLocation();
         List<Network.Station> found = network(player.getWorld()).search(query, location.getBlockX(), location.getBlockZ());
         if (found.isEmpty()) { lang.send(player, "stations-empty"); return; }
@@ -987,6 +1075,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     private void destination(Player player, String input, boolean clear) {
+        if (off(player, RailSwitches.DESTINATIONS)) return;
         if (input == null) {
             String dest = player.getPersistentDataContainer().get(destKey, PersistentDataType.STRING);
             lang.send(player, dest == null ? "dest-none" : "dest-show", "dest", dest == null ? "" : dest);
@@ -1003,6 +1092,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     private void info(Player player) {
+        if (off(player, RailSwitches.INFO)) return;
         Minecart cart = cartOf(player);
         if (cart == null) { lang.send(player, "no-cart"); return; }
         String owner = cart.getPersistentDataContainer().get(ownerKey, PersistentDataType.STRING);
@@ -1015,6 +1105,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     private void blocks(CommandSender sender) {
+        if (off(sender, RailSwitches.INFO)) return;
         lang.send(sender, "blocks-header");
         var speeds = getConfig().getConfigurationSection("speed.blocks");
         if (speeds != null)

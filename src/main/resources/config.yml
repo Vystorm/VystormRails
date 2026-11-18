@@ -1,5 +1,43 @@
 # Vystorm Rails – speeds are in blocks per tick (vanilla top speed 0.4 = 29 km/h; 1.0 = 72 km/h).
+# Every feature has an on/off switch (1.21.0). A change in /vadmin features or /vadmin config applies at once; only
+# tutorial.enabled needs a server restart. Switching a feature off keeps its saved data.
 sign-header: "[rails]"
+
+# [rails] signs (station, speed, dest, switch, collect, freight). false: no sign acts on carts and new signs are not
+# checked; the signs stay where they are.
+signs:
+  enabled: true
+
+# Destinations: /rails dest, dest signs, the map and "Travel to" in the player menu. false: carts ride without a
+# destination (switch signs take their default way, no auto-routing, no arrival title); saved destinations stay.
+destinations:
+  enabled: true
+
+# Network map: /rails, /rails map and the entry in the Vystorm Core main menu.
+map:
+  enabled: true
+
+# Station directory: /rails stations [SEARCH].
+stations:
+  enabled: true
+
+# Scheduled lines and station timetables: /rails line ..., /rails departures. false: carts on a line ride like any
+# other cart; lines.yml is kept.
+lines:
+  enabled: true
+
+# Cart tools: /rails info and /rails blocks.
+info:
+  enabled: true
+
+# Rails tutorial in the Vystorm Core main menu. A change needs a server restart.
+tutorial:
+  enabled: true
+
+# Speed blocks: the block under the rail sets the top speed (speed.blocks below). false: every cart uses speed.default
+# and speed signs; the list stays.
+speed-blocks:
+  enabled: true
 
 speed:
   # Top speed of a cart without speed block or speed sign.
@@ -51,6 +89,9 @@ arrival:
 cart-blocks:
   # Off the track a cart keeps this share of its speed per tick on these blocks (vanilla ground: 0.5).
   # Ice slides, honey catches a cart (soft landing after a jump).
+  # Ice slides and honey catches (the ground list below). false: carts off the track behave as in vanilla.
+  slide:
+    enabled: true
   ground:
     ICE: 0.97
     PACKED_ICE: 0.98
@@ -63,6 +104,8 @@ cart-blocks:
     push-up-to: 0.3
   # The last rail on this block throws the cart into the air: power + speed * speed-factor upwards.
   jump:
+    # false: no jumps, whatever block says ("none" keeps its meaning).
+    enabled: true
     block: SLIME_BLOCK
     power: 0.5
     speed-factor: 0.4
@@ -71,24 +114,34 @@ cart-blocks:
     air-keep: 0.99
   # This block right behind the end of the track sends carts back.
   bounce:
+    # false: carts stop at the track end as in vanilla.
+    enabled: true
     block: SLIME_BLOCK
     keep: 0.8
   # This block beside a rail moves the cart onto the next parallel track on the other side (up to range blocks away).
   shift:
+    # false: no moves onto a parallel track.
+    enabled: true
     block: SLIME_BLOCK
     range: 4
   # A rail on this block spins the cart once; reverse sends it back where it came from.
   spin:
+    # false: no spins.
+    enabled: true
     block: MAGMA_BLOCK
     ticks: 20
     reverse: true
   # A column of this block at the end of the track lifts (or lowers) the cart to the track at the column's other end.
   elevator:
+    # false: no elevators.
+    enabled: true
     block: SCAFFOLDING
     speed: 0.25
     max-height: 64
   # Carts swim on these like a boat (W/A/S/D); rider and cart do not burn. Add WATER if you like.
   float:
+    # Lava boat. false: carts do not swim, whatever fluids says.
+    enabled: true
     fluids: [LAVA]
     speed: 0.35
     # Flames on the cart while it swims on lava (it does not take damage either way).
@@ -96,6 +149,8 @@ cart-blocks:
   # A rail on this block is a signal: carts stop there while the block is powered by redstone, or while another cart
   # is on the next clear-ahead rails (keeps carts on one track from running into each other). 0 = redstone only.
   signal:
+    # false: no signal stops carts.
+    enabled: true
     block: REDSTONE_LAMP
     clear-ahead: 8
 
@@ -126,6 +181,9 @@ routing:
 
 # Personal station favorites, saved per player and world. Lowering the limit keeps existing entries.
 favorites:
+  # Station favorites (/rails favorite, /rails favorites, the favorites page). false: they answer that the feature is
+  # off; saved favorites stay.
+  enabled: true
   # 0 disables adding; 54 is the menu capacity. Existing favorites remain usable/removable.
   max-per-world: 18
 

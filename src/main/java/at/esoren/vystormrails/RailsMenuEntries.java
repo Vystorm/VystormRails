@@ -18,6 +18,7 @@ final class RailsMenuEntries {
         plugin.core().gui().playerMenu().register(plugin, PlayerMenuEntry.builder("travel-to")
                 .priority(230)
                 .visibleWhen((viewer, target) -> plugin.getConfig().getBoolean("routing.player-menu", true)
+                        && RailSwitches.on(plugin.getConfig(), RailSwitches.DESTINATIONS)
                         && viewer.hasPermission("vystormrails.use") && plugin.nearestStation(target) != null)
                 .icon((viewer, target) -> {
                     Network.Station station = plugin.nearestStation(target);

@@ -24,7 +24,7 @@ final class RailsPanels {
     void register() {
         try {
             panels.register(RailsPanel.FAVORITES, PanelSpec.builder(plugin.lang().ref("favorites-title"))
-                    .access(this::allowed).render(favorites::render).fallback(p -> FavoritesMenu.open(plugin, p)).build());
+                    .access(p -> allowed(p) && RailSwitches.on(plugin.getConfig(), RailSwitches.FAVORITES)).render(favorites::render).fallback(p -> FavoritesMenu.open(plugin, p)).build());
             panels.register(RailsPanel.NETWORK, PanelSpec.builder(plugin.lang().ref("menu-rails"))
                     .access(this::allowed).render(network::render)
                     .menu(MenuCategory.WORLD, Material.MINECART, plugin.lang().ref("menu-rails-desc"))
@@ -36,7 +36,8 @@ final class RailsPanels {
         }
     }
 
-    private boolean allowed(Player player) { return plugin.isEnabled() && player.hasPermission("vystormrails.use"); }
+    /** map.enabled (1.21.0): the network panel and its main-menu entry disappear while it is off. */
+    private boolean allowed(Player player) { return plugin.isEnabled() && player.hasPermission("vystormrails.use") && RailSwitches.on(plugin.getConfig(), RailSwitches.MAP); }
 
     boolean open(Player player, boolean favorites) {
         return panels.open(player, favorites ? RailsPanel.FAVORITES : RailsPanel.NETWORK) != PanelOpenResult.NONE;

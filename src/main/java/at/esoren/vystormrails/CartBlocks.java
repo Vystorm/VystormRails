@@ -105,7 +105,8 @@ final class CartBlocks implements Listener {
         floatOn.clear();
         jumpBlock = bounceBlock = shiftBlock = spinBlock = liftBlock = signalBlock = null;
         if (config == null) return;
-        ConfigurationSection grounds = config.getConfigurationSection("ground");
+        // 1.21.0: every cart block has its own switch; "none" and an empty list keep their meaning
+        ConfigurationSection grounds = RailSwitches.on(config, "slide.enabled") ? config.getConfigurationSection("ground") : null;
         if (grounds != null)
             for (String key : grounds.getKeys(false)) {
                 Material material = block(key, logger);
@@ -114,28 +115,28 @@ final class CartBlocks implements Listener {
         steer = config.getBoolean("steer.enabled", true);
         steerDegrees = Math.clamp(ConfigNumbers.read(config, "steer.degrees-per-tick", 4), 0, 20);
         pushSpeed = Math.clamp(ConfigNumbers.read(config, "steer.push-up-to", 0.3), 0, 1);
-        jumpBlock = block(config.getString("jump.block", "SLIME_BLOCK"), logger);
+        jumpBlock = RailSwitches.on(config, "jump.enabled") ? block(config.getString("jump.block", "SLIME_BLOCK"), logger) : null;
         jumpPower = Math.clamp(ConfigNumbers.read(config, "jump.power", 0.5), 0, 3);
         jumpFactor = Math.clamp(ConfigNumbers.read(config, "jump.speed-factor", 0.4), 0, 3);
         jumpMin = Math.max(0, ConfigNumbers.read(config, "jump.min-speed", 0.2));
         airKeep = Math.clamp(ConfigNumbers.read(config, "jump.air-keep", 0.99), 0.5, 1.0);
-        bounceBlock = block(config.getString("bounce.block", "SLIME_BLOCK"), logger);
+        bounceBlock = RailSwitches.on(config, "bounce.enabled") ? block(config.getString("bounce.block", "SLIME_BLOCK"), logger) : null;
         bounceKeep = Math.clamp(ConfigNumbers.read(config, "bounce.keep", 0.8), 0, 1.5);
-        shiftBlock = block(config.getString("shift.block", "SLIME_BLOCK"), logger);
+        shiftBlock = RailSwitches.on(config, "shift.enabled") ? block(config.getString("shift.block", "SLIME_BLOCK"), logger) : null;
         shiftRange = Math.clamp(config.getInt("shift.range", 4), 1, 8);
-        spinBlock = block(config.getString("spin.block", "MAGMA_BLOCK"), logger);
+        spinBlock = RailSwitches.on(config, "spin.enabled") ? block(config.getString("spin.block", "MAGMA_BLOCK"), logger) : null;
         spinTicks = Math.clamp(config.getInt("spin.ticks", 20), 4, 200);
         spinReverse = config.getBoolean("spin.reverse", true);
-        liftBlock = block(config.getString("elevator.block", "SCAFFOLDING"), logger);
+        liftBlock = RailSwitches.on(config, "elevator.enabled") ? block(config.getString("elevator.block", "SCAFFOLDING"), logger) : null;
         liftSpeed = Math.clamp(ConfigNumbers.read(config, "elevator.speed", 0.25), 0.05, 2);
         liftHeight = Math.clamp(config.getInt("elevator.max-height", 64), 2, 384);
-        for (String name : config.getStringList("float.fluids")) {
+        if (RailSwitches.on(config, "float.enabled")) for (String name : config.getStringList("float.fluids")) {
             Material material = block(name, logger);
             if (material != null) floatOn.add(material);
         }
         floatSpeed = Math.clamp(ConfigNumbers.read(config, "float.speed", 0.35), 0.05, 1);
         visualFire = config.getBoolean("float.visual-fire", true);
-        signalBlock = block(config.getString("signal.block", "REDSTONE_LAMP"), logger);
+        signalBlock = RailSwitches.on(config, "signal.enabled") ? block(config.getString("signal.block", "REDSTONE_LAMP"), logger) : null;
         clearAhead = Math.clamp(config.getInt("signal.clear-ahead", 8), 0, 32);
     }
 
