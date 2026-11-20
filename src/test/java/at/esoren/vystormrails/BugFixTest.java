@@ -191,7 +191,7 @@ class BugFixTest {
     @Test void disablingClosesPluginMenusBeforeClickProtectionDisappears() throws Exception {
         RailsPlugin plugin = TestCore.attach(mock(RailsPlugin.class, CALLS_REAL_METHODS));
         field(plugin, "holds", new HashMap<>()); field(plugin, "signCache", new HashMap<>());
-        field(plugin, "routes", new HashMap<>()); field(plugin, "networks", new HashMap<>());
+        field(plugin, "routes", new RouteCache(10_000)); field(plugin, "networks", new HashMap<>());
         field(plugin, "cartBlocks", mock(CartBlocks.class));
         Server server = mock(Server.class); doReturn(server).when(plugin).getServer();
         org.bukkit.entity.Player player = mock(org.bukkit.entity.Player.class);

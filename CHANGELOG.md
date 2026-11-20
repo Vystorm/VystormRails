@@ -1,3 +1,8 @@
+## 1.21.2 — 2026-11-20
+
+- Fixed: auto-routing kept an old answer at a junction after a station changed. A cart with a destination that passed a junction before the station sign was placed found no way there until a rail was placed or broken or the plugin was reloaded; after a station was moved or renamed, carts could keep taking the way to its old place. Now a new, renamed or removed station makes every junction of that world look again.
+- Nothing changes for networks whose stations stay as they are, and no file changes.
+
 ## 1.21.1 — 2026-11-20
 
 - Fixed: a `config.yml` with a YAML mistake is no longer overwritten at start or by `/rails reload` (before, the plugin wrote only `favorites.max-per-world` back into it). The file is left as it is, the console and the answer of `/rails reload` name the line and column of the mistake, and the last working settings stay active (at start: the default settings).

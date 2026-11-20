@@ -24,7 +24,7 @@ class ConfigurationTest {
             var lang = mock(Vystorm.vystorm_core.lang.Lang.class); field(plugin, "lang", lang);
             field(plugin, "blockSpeeds", new EnumMap<Material, Double>(Material.class));
             field(plugin, "cartBlocks", new CartBlocks(new Vystorm.vystorm_core.compat.CompatInterface() {}));
-            field(plugin, "routes", new HashMap<>()); field(plugin, "signCache", new HashMap<>());
+            field(plugin, "routes", new RouteCache(10_000)); field(plugin, "signCache", new HashMap<>());
             call(plugin, "load", new Class<?>[0]);
             assertEquals(1.5, (double) field(plugin, "cap"));
             assertEquals(.4, (double) field(plugin, "defaultSpeed"));

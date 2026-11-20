@@ -86,8 +86,8 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     private Vystorm.vystorm_core.API core;
     /** Created in onEnable: the cart blocks need Core's compatibility parts. */
     private CartBlocks cartBlocks;
-    /** Auto-routing results per junction, heading and destination; cleared when rails change and every minute. */
-    private final Map<String, Optional<BlockFace>> routes = new HashMap<>();
+    /** Auto-routing results per junction, heading and destination; valid for one revision of the world's network. */
+    private final RouteCache routes = new RouteCache(10_000);
     private Trains trains;
     private boolean routing = true;
     private int routingLimit = 4000;
@@ -422,8 +422,9 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         String dest = destination(cart);
         if (dest == null || dest.isBlank()) return null;
         World world = rail.getWorld();
-        String key = world.getUID() + ":" + core.compat().platform().getBlockKey(rail) + ":" + heading + ":" + dest.toLowerCase(Locale.ROOT);
-        Optional<BlockFace> cached = routes.get(key);
+        String key = core.compat().platform().getBlockKey(rail) + ":" + heading + ":" + dest.toLowerCase(Locale.ROOT);
+        long revision = network(world).revision();
+        Optional<BlockFace> cached = routes.get(world.getUID(), revision, key);
         if (cached != null) return cached.orElse(null);
         Router.Grid grid = new WorldGrid(world);
         BlockFace exit = null;
@@ -433,8 +434,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
                 if (station.name().equalsIgnoreCase(dest)) targets.add(new Router.Target(station.x(), station.y(), station.z()));
             exit = Router.exit(grid, rail.getX(), rail.getY(), rail.getZ(), heading, targets, routingLimit);
         }
-        if (routes.size() > 10_000) routes.clear();
-        routes.put(key, Optional.ofNullable(exit));
+        routes.put(world.getUID(), revision, key, exit);
         return exit;
     }
 
