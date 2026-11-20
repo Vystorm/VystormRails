@@ -1,3 +1,11 @@
+## 1.21.1 — 2026-11-20
+
+- Fixed: a `config.yml` with a YAML mistake is no longer overwritten at start or by `/rails reload` (before, the plugin wrote only `favorites.max-per-world` back into it). The file is left as it is, the console and the answer of `/rails reload` name the line and column of the mistake, and the last working settings stay active (at start: the default settings).
+- Fixed: a `fares.yml` with a YAML mistake is copied to `fares.yml.broken-<date-time>` before the plugin writes it again, so fares and tickets are never lost to a typo.
+- `/vadmin features` names every switch of the plugin in seven languages ("Jump block", "Arrival title and chime") instead of the key path ("Cart blocks › Jump").
+- `/rails favorites` with the network map switched off now says which switch it needs: "This needs “Network map” (map.enabled), which is switched off on this server." Before, it only said that the feature is off although `favorites.enabled` was on.
+- README: the supported servers are written as tested: Paper and Purpur 26.2, Paper 1.20.6 and Spigot 26.2.
+
 ## 1.21.0 — 2026-11-18
 
 - Requires Vystorm Core 0.65.0. Update Core before you update this plugin.

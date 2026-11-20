@@ -30,6 +30,8 @@ final class RailSwitches {
     static final String TUTORIAL = "tutorial.enabled";
     /** The one language key every switched-off command answers with. */
     static final String OFF = "feature-off";
+    /** 1.21.1: the answer for a feature whose own switch is on but which needs another switch ({switch}, {path}). */
+    static final String NEEDS = "feature-needs";
 
     static final List<String> NEW = List.of(SPEED_BLOCKS, SLIDE, JUMP, BOUNCE, SHIFT, SPIN, ELEVATOR, FLOAT, SIGNAL, SIGNS,
             DESTINATIONS, MAP, STATIONS, FAVORITES, LINES, INFO, TUTORIAL);
@@ -52,6 +54,9 @@ final class RailSwitches {
         all.addAll(DECLARED);
         return all;
     }
+
+    /** {@code cart-blocks.jump.enabled} -> {@code feature-names.cart-blocks-jump}: the readable name of a switch (1.21.1). */
+    static String labelKey(String path) { return "feature-names." + descriptionKey(path).substring("features.".length()); }
 
     /** {@code cart-blocks.jump.enabled} -> {@code features.cart-blocks-jump}: the language key of a description. */
     static String descriptionKey(String path) {

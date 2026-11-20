@@ -25,7 +25,7 @@ final class Fares {
         this.files = files;
         this.file = file;
         if (!Files.exists(file)) return;
-        YamlConfiguration y = YamlConfiguration.loadConfiguration(file.toFile());
+        YamlConfiguration y = YamlCheck.loadData(file, java.util.logging.Logger.getLogger("VystormRails"));
         ConfigurationSection f = y.getConfigurationSection("fares");
         if (f != null) for (String key : f.getKeys(false)) {
             double amount = f.getDouble(key);

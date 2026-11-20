@@ -212,17 +212,31 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         return true;
     }
 
+    /**
+     * For a feature whose own switch is on: answers "This needs <name> (<path>), which is switched off on this
+     * server." when the switch {@code key} it depends on is off (1.21.1); true when it is off.
+     */
+    boolean needs(CommandSender sender, String key) {
+        if (RailSwitches.on(getConfig(), key)) return false;
+        lang.send(sender, RailSwitches.NEEDS, "switch", lang.plain(sender, RailSwitches.labelKey(key)), "path", key);
+        return true;
+    }
+
     /** One-line descriptions for /vadmin features and the older booleans declared as switches (1.21.0). */
     private void describeSwitches() {
-        try {
-            var config = core.settings().config();
-            for (String path : RailSwitches.all()) {
-                String description = lang.ref(RailSwitches.descriptionKey(path));
-                if (RailSwitches.DECLARED.contains(path)) config.feature(this, path, null, description);
-                else config.label(this, path, null, description);
-            }
-            config.activation(this, RailSwitches.TUTORIAL, Vystorm.vystorm_core._uiMethods.settings.SettingPolicy.Activation.RESTART);
-        } catch (RuntimeException unavailable) { getLogger().fine("Switch descriptions unavailable: " + unavailable); }
+        try { declareSwitches(core.settings().config(), this, lang); }
+        catch (RuntimeException unavailable) { getLogger().fine("Switch descriptions unavailable: " + unavailable); }
+    }
+
+    /** What Core receives for {@code /vadmin features} (FeatureLabelsTest runs exactly this). */
+    static void declareSwitches(Vystorm.vystorm_core._uiMethods.settings.ConfigEditorInterface config, org.bukkit.plugin.Plugin plugin, Vystorm.vystorm_core.lang.Lang lang) {
+        for (String path : RailSwitches.all()) {
+            String description = lang.ref(RailSwitches.descriptionKey(path));
+            String label = lang.ref(RailSwitches.labelKey(path));
+            if (RailSwitches.DECLARED.contains(path)) config.feature(plugin, path, label, description);
+            else config.label(plugin, path, label, description);
+        }
+        config.activation(plugin, RailSwitches.TUTORIAL, Vystorm.vystorm_core._uiMethods.settings.SettingPolicy.Activation.RESTART);
     }
 
     /** Scheduled lines while lines.enabled is on, else null (1.21.0): carts then ride as if no line were set. */
@@ -247,7 +261,8 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
 
     private void openMenu(Player player, boolean favorites) {
         if (!isEnabled() || !player.hasPermission("vystormrails.use")) return;
-        if (off(player, RailSwitches.MAP) || favorites && off(player, RailSwitches.FAVORITES)) return;
+        // The favorites page is a view of the network map: with the map off it names that switch (1.21.1).
+        if (favorites ? off(player, RailSwitches.FAVORITES) || needs(player, RailSwitches.MAP) : off(player, RailSwitches.MAP)) return;
         if (panels != null) {
             try { if (panels.open(player, favorites)) return; }
             catch (RuntimeException failure) { getLogger().fine("Rail panel could not open; using chest menu: " + failure); }
@@ -260,14 +275,28 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         if (panels != null) panels.forget(event.getPlayer().getUniqueId());
     }
 
-    private void load() {
-        List<Boolean> listed = listing(getConfig());
-        reloadConfig();
-        refreshIfChanged(listed);
-        if (!getConfig().contains("favorites.max-per-world", true)) {
-            getConfig().set("favorites.max-per-world", 18);
-            saveConfig();
+    /**
+     * Start and reload read config.yml through here. A file with a YAML error is never saved over: it is reported and
+     * left as it is (jar defaults at start, the last good settings on a reload). Returns the problem or null.
+     */
+    static String readConfig(org.bukkit.plugin.java.JavaPlugin plugin, boolean reload) {
+        String problem = YamlCheck.readConfig(plugin, reload);
+        if (problem == null && !plugin.getConfig().contains("favorites.max-per-world", true)) {
+            plugin.getConfig().set("favorites.max-per-world", 18);
+            plugin.saveConfig();
         }
+        return problem;
+    }
+
+    /** True once config.yml was applied; a later broken file then keeps these settings. */
+    private boolean configLoaded;
+
+    String load() {
+        List<Boolean> listed = listing(getConfig());
+        String problem = readConfig(this, configLoaded);
+        if (problem != null && configLoaded) return problem;
+        configLoaded = true;
+        refreshIfChanged(listed);
         favoritesLimit = Math.clamp(getConfig().getInt("favorites.max-per-world", 18), 0, 54);
         if (lang != null) lang.reload();
         header = getConfig().getString("sign-header", "[rails]").strip();
@@ -312,6 +341,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         routingLimit = Math.clamp(getConfig().getInt("routing.search-limit", 4000), 100, 50_000);
         routes.clear();
         signCache.clear();
+        return problem;
     }
 
     // ---- movement -------------------------------------------------------------------------------------------------
@@ -1030,8 +1060,9 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
                     ctx.reply(p.trains.uncouple(cart) ? "train-uncoupled" : "train-not-coupled");
                 }))
                 .sub("reload", s -> s.permission("vystormrails.admin").executes(ctx -> {
-                    p.load();
-                    ctx.reply("reloaded", "blocks", Integer.toString(p.blockSpeeds.size()));
+                    String problem = p.load();
+                    if (problem != null) ctx.reply("config-error", "problem", problem);
+                    else ctx.reply("reloaded", "blocks", Integer.toString(p.blockSpeeds.size()));
                 }))
                 .build();
     }

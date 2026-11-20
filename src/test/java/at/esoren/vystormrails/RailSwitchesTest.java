@@ -81,6 +81,47 @@ class RailSwitchesTest {
         }
     }
 
+    /**
+     * 1.21.1: every boolean that Core's {@code /vadmin features} lists for config.yml (keys named {@code enabled},
+     * top-level booleans, declared switches) has a readable name and a description in all seven languages, so the
+     * screen never shows a raw key path such as "Cart blocks › Jump".
+     */
+    @Test void givenEveryFeatureCoreListsFromConfigYml_whenDescribed_thenAllSevenLanguagesHaveNameAndDescription() {
+        YamlConfiguration config = shipped();
+        java.util.Set<String> housekeeping = java.util.Set.of("metrics", "debug", "verbose", "sound", "console-log", "placeholderapi", "update-check");
+        List<String> listed = new java.util.ArrayList<>();
+        for (String path : config.getKeys(true)) {
+            if (!config.isBoolean(path)) continue;
+            boolean feature = path.equals("enabled") || path.endsWith(".enabled") || (path.indexOf('.') < 0 && !housekeeping.contains(path));
+            if (feature || RailSwitches.DECLARED.contains(path)) listed.add(path);
+        }
+        assertTrue(listed.size() >= 30, "found " + listed);
+        assertTrue(RailSwitches.all().containsAll(listed), "registered with name and description: " + listed);
+        for (String code : List.of("en", "de", "fr", "it", "pt_br", "ru", "zh_cn")) {
+            YamlConfiguration lang = YamlConfiguration.loadConfiguration(new File("src/main/resources/lang/" + code + ".yml"));
+            for (String key : listed) {
+                assertFalse(lang.getString(RailSwitches.labelKey(key), "").isBlank(), code + " name " + key);
+                assertFalse(lang.getString(RailSwitches.descriptionKey(key), "").isBlank(), code + " description " + key);
+            }
+            String needs = lang.getString(RailSwitches.NEEDS, "");
+            assertTrue(needs.contains("{switch}") && needs.contains("{path}"), code + " needs message: " + needs);
+        }
+    }
+
+    @Test void givenMapOff_whenFavoritesOpen_thenTheAnswerNamesTheMapSwitch() throws Exception {
+        Player player = mock(Player.class);
+        when(player.hasPermission(any(String.class))).thenReturn(true);
+        Lang lang = mock(Lang.class);
+        when(lang.plain(player, RailSwitches.labelKey(RailSwitches.MAP))).thenReturn("Network map");
+        RailsPlugin plugin = plugin(with(RailSwitches.MAP, false), lang);
+        doReturn(true).when(plugin).isEnabled();
+        plugin.openFavorites(player);
+        verify(lang).send(player, RailSwitches.NEEDS, "switch", "Network map", "path", RailSwitches.MAP);
+        verify(lang, never()).send(player, RailSwitches.OFF);
+        plugin.openNetwork(player);
+        verify(lang).send(player, RailSwitches.OFF);
+    }
+
     @Test void givenOldConfigWithoutNewKeys_whenRead_thenEverythingIsOnAndTheBlocksAsBefore() {
         YamlConfiguration old = shipped();
         for (String key : RailSwitches.NEW) old.set(key, null);

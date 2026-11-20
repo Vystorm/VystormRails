@@ -51,7 +51,7 @@ Definitions persist atomically in `lines.yml` (16 per owner, 128 total); the wor
 - **No clutter:** leaving or breaking your cart puts it straight back into your inventory.
 - **Vanilla stays vanilla:** powered rails launch, activator rails eject, hoppers load – Rails does not duplicate them.
 - Texts in seven languages: English, German, French, Italian, Brazilian Portuguese, Russian and Simplified Chinese (`lang/*.yml`). `config.yml` is editable in game with `/vadmin config`.
-- Paper/Purpur 1.20.6–26.x: the build compiles against Paper 26.2 and, in the `compat1206` check, against Paper 1.20.6. Spigot and CraftBukkit 26.3 passed startup and registration tests with 1.12.0 (`COMPATIBILITY.md`). Plugin bytecode requires Java 21+; use the Java version required by your server (Java 25 for current Paper). Needs [Vystorm Core](https://www.spigotmc.org/resources/139848/) 0.65.0+ (free).
+- Tested on Paper and Purpur 26.2, Paper 1.20.6 and Spigot 26.2. Plugin bytecode requires Java 21+; use the Java version required by your server (Java 25 for current Paper). Needs [Vystorm Core](https://www.spigotmc.org/resources/139848/) 0.65.0+ (free).
 
 ## Feature switches (1.21.0)
 
