@@ -1,3 +1,7 @@
+## 1.21.3 — 2026-11-21
+
+- Fixed on Spigot: with `fares.payee` set, a rider who paid a fare at a station lost the money, the payee got nothing and the cart was not sent off (NoSuchMethodError in the console). The plugin looked the payee up with a Paper-only method that Spigot does not have. The lookup now goes through Vystorm Core, which works on Spigot too. Broken on Spigot since fares came in with 1.17.0; Paper and Purpur were not affected, and servers without `fares.payee` were not affected.
+
 ## 1.21.2 — 2026-11-20
 
 - Fixed: auto-routing kept an old answer at a junction after a station changed. A cart with a destination that passed a junction before the station sign was placed found no way there until a rail was placed or broken or the plugin was reloaded; after a station was moved or renamed, carts could keep taking the way to its old place. Now a new, renamed or removed station makes every junction of that world look again.

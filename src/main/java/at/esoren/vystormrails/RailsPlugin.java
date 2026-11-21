@@ -561,7 +561,8 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
                 continue;
             }
             if (payee != null && !payee.isBlank()) {
-                org.bukkit.OfflinePlayer to = org.bukkit.Bukkit.getOfflinePlayerIfCached(payee.strip());
+                // Core's platform part: Bukkit.getOfflinePlayerIfCached is Paper API, Spigot has no such method
+                org.bukkit.OfflinePlayer to = core.compat().platform().getOfflinePlayerIfCached(payee.strip());
                 if (to != null) economy.deposit(to, fare);
             }
             core.compat().platform().sendActionBar(player, lang.component(player, "fare.paid", "fare", economy.format(fare), "station", station));
