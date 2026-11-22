@@ -135,6 +135,8 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         trains = new Trains(this, lang);
         trains.held(cart -> holds.containsKey(cart) || cartBlocks.busy(cart));
         cartBlocks.trains(trains);
+        rides = new RideCounts(getDataFolder().toPath().resolve("riders.yml"), core.data().files());
+        if (rides.problem() != null) getLogger().severe(rides.problem());
         load();
         getServer().getPluginManager().registerEvents(this, this);
         handleBlockEvents(core.priority().stages());
@@ -165,6 +167,9 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         try {
             RailsPlaceholders.register(core.placeholders(), this, lang, placeholderSource());
         } catch (RuntimeException unavailable) { getLogger().warning("Placeholders not registered: " + unavailable); }
+        rankingsReady = true;
+        applyRankings();
+        tasks.timer(1200L, 1200L, this::saveRides);
         core.command().register(this, lang, commandSpec(this));
         RailsMenuEntries.register(this);
     }
@@ -187,6 +192,10 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         routes.clear();
         saveNetworks(false);
         networks.clear();
+        if (rides != null) {
+            try { rides.write(rides.takeChanges()); }
+            catch (java.io.IOException failure) { getLogger().warning("Could not save riders.yml: " + failure.getMessage()); }
+        }
         if (core != null) core.settings().config().unregister(this);
     }
 
@@ -341,14 +350,76 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         routingLimit = Math.clamp(getConfig().getInt("routing.search-limit", 4000), 100, 50_000);
         routes.clear();
         signCache.clear();
+        rankingsOff = !RailSwitches.on(getConfig(), RailSwitches.RANKINGS);
+        applyRankings();
         return problem;
+    }
+
+    // ---- rankings rails:distance and rails:trips (1.22.0) -----------------------------------------------------------
+
+    private RideCounts rides;
+    /** rankings.enabled, read in load() because it is asked on every cart move; an "off" flag like the others. */
+    private boolean rankingsOff;
+    /** True once onEnable registered the placeholders; the first load() declares nothing yet. */
+    private boolean rankingsReady;
+
+    /**
+     * Declares the rankings on a Core with the capability {@code placeholder-rankings} (0.67.0); on an older Core
+     * nothing happens. At start and after every reload, so {@code rankings.enabled} applies without a restart.
+     */
+    private void applyRankings() {
+        if (!rankingsReady || core == null) return;
+        boolean has;
+        try { has = CoreApi.has("placeholder-rankings"); } catch (RuntimeException | LinkageError old) { has = false; }
+        RailsPlaceholders.rankings(core.placeholders(), this, has, !rankingsOff, rides, lang, getLogger());
+    }
+
+    /** Blocks ridden by every player in a moving minecart (VehicleMoveEvent: one step per tick). */
+    void countRide(Minecart cart, Location from, Location to) {
+        if (rankingsOff || rides == null || !(cart instanceof RideableMinecart) || from.getWorld() != to.getWorld()) return;
+        List<Entity> passengers = cart.getPassengers();
+        if (passengers.isEmpty()) return;
+        double dx = to.getX() - from.getX(), dy = to.getY() - from.getY(), dz = to.getZ() - from.getZ();
+        double blocks = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        for (Entity rider : passengers) if (rider instanceof Player player) rides.moved(player.getUniqueId(), player.getName(), blocks);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void startRide(VehicleEnterEvent event) {
+        if (rides != null && event.getVehicle() instanceof Minecart && event.getEntered() instanceof Player player) rides.start(player.getUniqueId());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void endRide(VehicleExitEvent event) {
+        if (rides != null && event.getExited() instanceof Player player) rides.end(player.getUniqueId());
+    }
+
+    @EventHandler
+    public void endRideOnQuit(org.bukkit.event.player.PlayerQuitEvent event) {
+        if (rides != null) rides.end(event.getPlayer().getUniqueId());
+    }
+
+    /** At most once a minute: writes riders.yml off the server thread when something changed. */
+    private void saveRides() {
+        RideCounts store = rides;
+        RideCounts.Snapshot changes = store == null ? null : store.takeChanges();
+        if (changes == null) return;
+        tasks.async(() -> {
+            try { store.write(changes); }
+            catch (java.io.IOException failure) {
+                getLogger().warning("Could not save riders.yml: " + failure.getMessage());
+                tasks.later(1L, store::failed);
+            }
+        });
     }
 
     // ---- movement -------------------------------------------------------------------------------------------------
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMove(VehicleMoveEvent event) {
-        if (!(event.getVehicle() instanceof Minecart cart) || cartBlocks.busy(cart.getUniqueId())) return;
+        if (!(event.getVehicle() instanceof Minecart cart)) return;
+        countRide(cart, event.getFrom(), event.getTo());
+        if (cartBlocks.busy(cart.getUniqueId())) return;
         Location from = event.getFrom(), to = event.getTo();
         if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) return;
         Block rail = railAt(to.getBlock());

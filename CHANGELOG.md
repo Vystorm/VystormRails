@@ -1,3 +1,11 @@
+## 1.22.0 — 2026-11-22
+
+- Rankings for boards: with Vystorm Core 0.67.0 or newer and Vystorm Boards 1.21.0 or newer, a board can show the players who rode the farthest by minecart (`rails:distance`, shown as `850 m` or `1.25 km`) and the players with the most cart rides (`rails:trips`, rides of at least 16 blocks), for example `{type: top, source: "rails:distance", rows: 10}` with a `text` element above it as the heading. Both list offline players too and never show where anyone rode.
+- Counting starts with this update, so both rankings begin empty. The counts and the players' last known names are kept in the new file `riders.yml`, written at most once a minute and when the server stops. Going back to 1.21.2 is fine: older versions ignore the file.
+- The same rankings work as placeholders in every text that shows Vystorm placeholders: `%vystorm_rails_top_distance_1_name%`, `%vystorm_rails_top_distance_1_value%`, `%vystorm_rails_rank_trips%` and more, listed in the README. `/vadmin placeholders rankings rails` shows them with their names in seven languages.
+- New switch `rankings.enabled`, on by default and listed in `/vadmin features` in seven languages. Off, both rankings are removed at the next `/rails reload` and nothing is counted; the counts already kept stay.
+- The plugin still runs with Vystorm Core 0.65.0 or newer. On a Core older than 0.67.0 it offers no rankings and everything else works as before.
+
 ## 1.21.3 — 2026-11-21
 
 - Fixed on Spigot: with `fares.payee` set, a rider who paid a fare at a station lost the money, the payee got nothing and the cart was not sent off (NoSuchMethodError in the console). The plugin looked the payee up with a Paper-only method that Spigot does not have. The lookup now goes through Vystorm Core, which works on Spigot too. Broken on Spigot since fares came in with 1.17.0; Paper and Purpur were not affected, and servers without `fares.payee` were not affected.

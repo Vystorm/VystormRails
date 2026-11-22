@@ -239,6 +239,7 @@ feature-names:
   routing-player-menu: "Travel to in the player menu"
   cart-blocks-spin-reverse: "Spin sends carts back"
   cart-blocks-float-visual-fire: "Flames on lava carts"
+  rankings: "Rankings"
 features:
   speed-blocks: "Speed blocks: the block under the rail sets the top speed"
   cart-blocks-slide: "Ice lets carts slide, honey catches them"
@@ -274,6 +275,7 @@ features:
   routing-player-menu: "Travel to entry in the Core player menu"
   cart-blocks-spin-reverse: "Spin sends the cart back where it came from"
   cart-blocks-float-visual-fire: "Flames on a cart that swims on lava"
+  rankings: "Rankings of distance ridden and cart rides, for Vystorm Boards (Core 0.67.0 or newer)"
 placeholder:
   destination: "Destination of the player's cart; empty with destinations off"
   speed_kmh: "Speed of the cart the player rides in km/h, 0 when not riding"
@@ -287,3 +289,10 @@ placeholder:
   nearest_station: "Nearest station in the player's world"
   fare: "Fare of the named station"
 config-error: "<red>config.yml was not loaded: YAML error at {problem}. The file was left unchanged and the last good settings stay active."
+rankings:
+  distance:
+    label: "Distance by cart"
+    description: "Blocks the player has ridden in a minecart"
+  trips:
+    label: "Cart rides"
+    description: "Minecart rides of at least 16 blocks"

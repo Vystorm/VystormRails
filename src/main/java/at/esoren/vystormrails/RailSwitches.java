@@ -28,6 +28,10 @@ final class RailSwitches {
     static final String LINES = "lines.enabled";
     static final String INFO = "info.enabled";
     static final String TUTORIAL = "tutorial.enabled";
+    /** 1.22.0: the rankings rails:distance and rails:trips (need Core 0.67.0) and counting rides for them. */
+    static final String RANKINGS = "rankings.enabled";
+    /** Switches added after 1.21.0. */
+    static final List<String> LATER = List.of(RANKINGS);
     /** The one language key every switched-off command answers with. */
     static final String OFF = "feature-off";
     /** 1.21.1: the answer for a feature whose own switch is on but which needs another switch ({switch}, {path}). */
@@ -51,6 +55,7 @@ final class RailSwitches {
     static List<String> all() {
         List<String> all = new ArrayList<>(NEW);
         all.addAll(OLDER);
+        all.addAll(LATER);
         all.addAll(DECLARED);
         return all;
     }

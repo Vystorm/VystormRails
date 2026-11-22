@@ -82,6 +82,19 @@ final class RailsPlaceholders {
         return ns;
     }
 
+    /**
+     * Declares {@code rails:distance} and {@code rails:trips} while {@code rankings.enabled} is on and removes them when
+     * a reload switched it off. {@code coreHasRankings} is {@code CoreApi.has("placeholder-rankings")}: without it
+     * nothing is declared and {@link RailsRankings}, the only class that mentions Core's ranking types, is never loaded.
+     * A refusal (another plugin owns the namespace, an older Core) is logged and the plugin keeps running.
+     */
+    static void rankings(PlaceholderInterface placeholders, Plugin owner, boolean coreHasRankings, boolean on, RideCounts counts,
+                         Lang lang, java.util.logging.Logger logger) {
+        if (!coreHasRankings || placeholders == null || counts == null) return;
+        try { RailsRankings.apply(owner, placeholders, on, counts, key -> lang == null ? key : lang.ref(key)); }
+        catch (RuntimeException | LinkageError refused) { if (logger != null) logger.warning("Rankings not offered: " + refused); }
+    }
+
     private static void add(PlaceholderNamespace ns, Lang lang, PlaceholderValue value) {
         ns.add(lang == null ? value : value.description(lang.ref("placeholder." + value.key())));
     }

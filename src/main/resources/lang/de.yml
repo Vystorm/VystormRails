@@ -239,6 +239,7 @@ feature-names:
   routing-player-menu: "Hinfahren im Spielermenü"
   cart-blocks-spin-reverse: "Drehblock schickt zurück"
   cart-blocks-float-visual-fire: "Flammen an Lavaloren"
+  rankings: "Ranglisten"
 features:
   speed-blocks: "Tempoblöcke: der Block unter der Schiene setzt die Höchstgeschwindigkeit"
   cart-blocks-slide: "Eis lässt Loren rutschen, Honig fängt sie auf"
@@ -274,6 +275,7 @@ features:
   routing-player-menu: "Eintrag Hinfahren im Core-Spielermenü"
   cart-blocks-spin-reverse: "Die Drehung schickt die Lore zurück"
   cart-blocks-float-visual-fire: "Flammen an einer Lore auf Lava"
+  rankings: "Ranglisten für gefahrene Strecke und Lorenfahrten in Vystorm Boards (Core 0.67.0 oder neuer)"
 placeholder:
   destination: "Ziel der Lore des Spielers; leer bei ausgeschalteten Zielen"
   speed_kmh: "Tempo der Lore des Spielers in km/h, 0 ohne Lore"
@@ -287,3 +289,10 @@ placeholder:
   nearest_station: "Nächste Station in der Welt des Spielers"
   fare: "Fahrpreis der genannten Station"
 config-error: "<red>config.yml wurde nicht geladen: YAML-Fehler bei {problem}. Die Datei bleibt unverändert, die letzten gültigen Einstellungen bleiben aktiv."
+rankings:
+  distance:
+    label: "Strecke mit der Lore"
+    description: "Blöcke, die der Spieler in einer Lore gefahren ist"
+  trips:
+    label: "Lorenfahrten"
+    description: "Fahrten in einer Lore über mindestens 16 Blöcke"

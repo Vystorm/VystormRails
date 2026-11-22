@@ -58,6 +58,7 @@ Definitions persist atomically in `lines.yml` (16 per owner, 128 total); the wor
 Every feature has its own on/off switch in `config.yml`, listed with a one-line description in all seven languages in `/vadmin features`. Changes apply at once; only `tutorial.enabled` needs a restart. Core adds new switches to an existing `config.yml` with their comments; a missing switch counts as on.
 
 - New in 1.21.0: `speed-blocks.enabled`, one switch per cart block (`cart-blocks.slide|jump|bounce|shift|spin|elevator|float|signal.enabled`; the word `none` and empty lists keep their meaning), `signs.enabled`, `destinations.enabled`, `map.enabled`, `stations.enabled`, `favorites.enabled`, `lines.enabled`, `info.enabled` (`/rails info`, `/rails blocks`), `tutorial.enabled`.
+- New in 1.22.0: `rankings.enabled` (the rankings `rails:distance` and `rails:trips` and the counting for them, see below).
 - Already there: `cart-blocks.steer.enabled`, `trains.enabled`, `routing.enabled`, `fares.enabled`, `freight.enabled` and the top-level `speedometer`.
 - Older keys keep their names and now also show in `/vadmin features`: `speed.slow-before-curves`, `collisions.push-mobs`, `collisions.pass-through-players`, `collisions.empty-carts-pick-up-mobs`, `pickup.on-exit`, `pickup.on-break`, `arrival.title`, `arrival.clear-destination`, `routing.player-menu`, `cart-blocks.spin.reverse`, `cart-blocks.float.visual-fire`.
 
@@ -66,6 +67,27 @@ A command of a switched-off feature answers "This feature is switched off on thi
 ## Placeholders (1.21.0)
 
 With Vystorm Core 0.65.0 the plugin registers the namespace `rails`: `destination`, `speed_kmh`, `max_kmh`, `destination_distance`, `riding`, `ticket_remaining`, `has_ticket`, `favorites_count`, `stations_count`, `nearest_station`, `fare` (with a station name as argument). Each works as `%vystorm_rails_<key>%` (also through PlaceholderAPI) and as `{rails:<key>}` in Vystorm texts; `/vadmin placeholders rails` lists them. Examples: `%vystorm_rails_speed_kmh%` and `%vystorm_rails_fare_central%`. A value of a switched-off feature is empty. All values answer on the server thread only.
+
+## Rankings (1.22.0)
+
+With Vystorm Core 0.67.0 or newer the plugin offers two rankings that Vystorm Boards 1.21.0 or newer can show on a board and that every text with Vystorm placeholders can use. Both list offline players too and never show where a player rode.
+
+| Source id | Counts |
+| --- | --- |
+| `rails:distance` | Blocks the player has ridden in a minecart, shown as `850 m` or `1.25 km` |
+| `rails:trips` | Minecart rides of at least 16 blocks; a ride ends when the player leaves the cart |
+
+Counting starts with 1.22.0. The counts and the players' last known names are kept in `plugins/VystormRails/riders.yml`, written at most once a minute and when the server stops; older versions of the plugin ignore the file. A jump of more than 8 blocks between two cart moves (a teleport) is not counted.
+
+Placeholders (`<key>` is `distance` or `trips`, `<n>` is 1 to 100): `%vystorm_rails_top_<key>_<n>_name%`, `%vystorm_rails_top_<key>_<n>_value%`, `%vystorm_rails_top_<key>_<n>_raw%`, `%vystorm_rails_top_<key>_<n>_uuid%`, and for the viewer `%vystorm_rails_rank_<key>%` and `%vystorm_rails_value_<key>%`. Short form in Vystorm texts: `{rails:top_distance:1:name}`, `{rails:rank_trips}`. A board in Vystorm Boards:
+
+```yaml
+elements:
+  - {type: text, text: "<gold>Longest distance by cart", x: 16, y: 12, size: 22}
+  - {type: top, source: "rails:distance", x: 16, y: 48, rows: 10}
+```
+
+`rankings.enabled: false` removes both rankings at the next `/rails reload` and stops counting; the counts already kept stay. `/vadmin placeholders rankings rails` lists them. On a Core older than 0.67.0 the plugin runs as before and offers no rankings; it still needs Vystorm Core 0.65.0 or newer.
 
 ## Commands and permissions
 

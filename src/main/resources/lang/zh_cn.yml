@@ -239,6 +239,7 @@ feature-names:
   routing-player-menu: "玩家菜单中的前往"
   cart-blocks-spin-reverse: "旋转方块送回矿车"
   cart-blocks-float-visual-fire: "熔岩矿车上的火焰"
+  rankings: "排行榜"
 features:
   speed-blocks: "速度方块：铁轨下的方块决定最高速度"
   cart-blocks-slide: "冰让矿车滑行，蜂蜜接住矿车"
@@ -274,6 +275,7 @@ features:
   routing-player-menu: "Core 玩家菜单中的前往条目"
   cart-blocks-spin-reverse: "旋转后把矿车送回原路"
   cart-blocks-float-visual-fire: "在熔岩上漂浮的矿车带火焰效果"
+  rankings: "Vystorm Boards 的矿车行驶距离和乘车次数排行榜（需要 Core 0.67.0 或更新版本）"
 placeholder:
   destination: "玩家矿车的目的地；关闭目的地时为空"
   speed_kmh: "玩家所乘矿车的速度（km/h），不乘车时为 0"
@@ -287,3 +289,10 @@ placeholder:
   nearest_station: "玩家所在世界最近的车站"
   fare: "指定车站的票价"
 config-error: "<red>config.yml 未加载：YAML 错误位于 {problem}。文件未被修改，仍使用上次有效的设置。"
+rankings:
+  distance:
+    label: "矿车行驶距离"
+    description: "玩家乘坐矿车行驶的方块数"
+  trips:
+    label: "矿车乘车次数"
+    description: "至少 16 格的矿车乘车次数"

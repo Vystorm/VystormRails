@@ -239,6 +239,7 @@ feature-names:
   routing-player-menu: "Vai da nel menu giocatore"
   cart-blocks-spin-reverse: "La rotazione rimanda indietro"
   cart-blocks-float-visual-fire: "Fiamme sulla lava"
+  rankings: "Classifiche"
 features:
   speed-blocks: "Blocchi di velocità: il blocco sotto il binario fissa la velocità massima"
   cart-blocks-slide: "Il ghiaccio fa scivolare i carrelli, il miele li ferma"
@@ -274,6 +275,7 @@ features:
   routing-player-menu: "Voce Vai da nel menu giocatore di Core"
   cart-blocks-spin-reverse: "La rotazione rimanda il carrello da dove viene"
   cart-blocks-float-visual-fire: "Fiamme su un carrello che nuota sulla lava"
+  rankings: "Classifiche della distanza percorsa e dei viaggi in carrello, per Vystorm Boards (Core 0.67.0 o più recente)"
 placeholder:
   destination: "Destinazione del carrello del giocatore; vuoto con le destinazioni disattivate"
   speed_kmh: "Velocità del carrello del giocatore in km/h, 0 senza carrello"
@@ -287,3 +289,10 @@ placeholder:
   nearest_station: "Stazione più vicina nel mondo del giocatore"
   fare: "Tariffa della stazione indicata"
 config-error: "<red>config.yml non è stato caricato: errore YAML in {problem}. Il file non è stato modificato e restano attive le ultime impostazioni valide."
+rankings:
+  distance:
+    label: "Distanza in carrello"
+    description: "Blocchi percorsi dal giocatore in un carrello da miniera"
+  trips:
+    label: "Viaggi in carrello"
+    description: "Viaggi in carrello da miniera di almeno 16 blocchi"

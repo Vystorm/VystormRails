@@ -241,6 +241,7 @@ feature-names:
   routing-player-menu: "Поехать к в меню игрока"
   cart-blocks-spin-reverse: "Разворот отправляет назад"
   cart-blocks-float-visual-fire: "Пламя на лаве"
+  rankings: "Рейтинги"
 features:
   speed-blocks: "Блоки скорости: блок под рельсом задаёт наибольшую скорость"
   cart-blocks-slide: "Лёд даёт вагонеткам скользить, мёд их ловит"
@@ -276,6 +277,7 @@ features:
   routing-player-menu: "Пункт «Ехать к» в меню игрока Core"
   cart-blocks-spin-reverse: "Разворот отправляет вагонетку обратно"
   cart-blocks-float-visual-fire: "Пламя на вагонетке, плывущей по лаве"
+  rankings: "Рейтинги пройденного расстояния и поездок в вагонетке для Vystorm Boards (Core 0.67.0 или новее)"
 placeholder:
   destination: "Цель вагонетки игрока; пусто при выключенных целях"
   speed_kmh: "Скорость вагонетки игрока в км/ч, 0 без вагонетки"
@@ -289,3 +291,10 @@ placeholder:
   nearest_station: "Ближайшая станция в мире игрока"
   fare: "Плата за указанную станцию"
 config-error: "<red>config.yml не загружен: ошибка YAML в {problem}. Файл не изменён, действуют последние рабочие настройки."
+rankings:
+  distance:
+    label: "Путь в вагонетке"
+    description: "Блоки, которые игрок проехал в вагонетке"
+  trips:
+    label: "Поездки в вагонетке"
+    description: "Поездки в вагонетке не короче 16 блоков"

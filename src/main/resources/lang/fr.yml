@@ -240,6 +240,7 @@ feature-names:
   routing-player-menu: "Aller vers dans le menu joueur"
   cart-blocks-spin-reverse: "La rotation renvoie le wagonnet"
   cart-blocks-float-visual-fire: "Flammes sur la lave"
+  rankings: "Classements"
 features:
   speed-blocks: "Blocs de vitesse : le bloc sous le rail fixe la vitesse maximale"
   cart-blocks-slide: "La glace fait glisser les wagonnets, le miel les rattrape"
@@ -275,6 +276,7 @@ features:
   routing-player-menu: "Entrée Aller vers dans le menu joueur de Core"
   cart-blocks-spin-reverse: "La rotation renvoie le wagonnet d'où il vient"
   cart-blocks-float-visual-fire: "Flammes sur un wagonnet qui nage sur la lave"
+  rankings: "Classements de la distance parcourue et des trajets en wagonnet, pour Vystorm Boards (Core 0.67.0 ou plus récent)"
 placeholder:
   destination: "Destination du wagonnet du joueur ; vide si les destinations sont désactivées"
   speed_kmh: "Vitesse du wagonnet du joueur en km/h, 0 sans wagonnet"
@@ -288,3 +290,10 @@ placeholder:
   nearest_station: "Station la plus proche dans le monde du joueur"
   fare: "Tarif de la station indiquée"
 config-error: "<red>config.yml n'a pas été chargé : erreur YAML à {problem}. Le fichier n'a pas été modifié et les derniers réglages valides restent actifs."
+rankings:
+  distance:
+    label: "Distance en wagonnet"
+    description: "Blocs parcourus par le joueur en wagonnet"
+  trips:
+    label: "Trajets en wagonnet"
+    description: "Trajets en wagonnet d’au moins 16 blocs"

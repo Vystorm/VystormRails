@@ -34,6 +34,12 @@ info:
 tutorial:
   enabled: true
 
+# Rankings for Vystorm Boards and placeholders (1.22.0): rails:distance (blocks ridden in a minecart) and rails:trips
+# (rides of at least 16 blocks), counted from 1.22.0 on in riders.yml. Needs Vystorm Core 0.67.0 or newer for the
+# rankings themselves. false: no rankings and no counting; the counts already kept stay.
+rankings:
+  enabled: true
+
 # Speed blocks: the block under the rail sets the top speed (speed.blocks below). false: every cart uses speed.default
 # and speed signs; the list stays.
 speed-blocks:
