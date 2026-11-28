@@ -124,6 +124,7 @@ final class NetworkMenu implements InventoryHolder {
             lore.add(lang.component(player, "map-distance", "distance", Long.toString(Math.round(Math.sqrt(dx * dx + dz * dz)))));
         }
         if (!station.name().isBlank()) lore.add(lang.component(player, target ? "map-station-dest" : "map-station-click"));
+        if (!station.name().isBlank() && plugin.board(player, station.name()) != null) lore.add(lang.component(player, "map-station-right-click"));
         ItemStack item = named(new ItemStack(Material.BELL), lang.component(player, "map-station", "station", name), lore);
         if (target) plugin.core().compat().platform().editMeta(item, meta -> meta.setEnchantmentGlintOverride(true));
         return item;
@@ -184,6 +185,11 @@ final class NetworkMenu implements InventoryHolder {
                     if (station == null || station.name().isBlank()) return;
                     Network.Station current = plugin.favoriteStation(player, station.name());
                     if (current == null) return;
+                    if (event.isRightClick() && plugin.board(player, current.name()) != null) {
+                        // 1.23.0: departures and day ticket of this station
+                        plugin.getServer().getScheduler().runTask(plugin, () -> { if (player.isOnline()) StationMenu.open(plugin, player, current.name()); });
+                        return;
+                    }
                     plugin.setDestination(player, current.name());
                 }
             }

@@ -130,6 +130,57 @@ class RailsPanelTest {
         }
     }
 
+    private static RailsPanel.Overview withBoard(RailsPanel.Board board) {
+        var o = overview(false, List.of(new RailsPanel.Station("central", "Central", 10, 64, 20, 22, true)), "central");
+        return new RailsPanel.Overview(o.owner(), o.world(), o.favorites(), o.destination(), o.stationCount(), o.rails(), o.rows(),
+                o.selected(), o.page(), o.pages(), o.query(), o.sort(), o.cells(), o.scale(), o.tab(), board);
+    }
+
+    @Test void givenStationBoard_whenRendered_thenDeparturesFareAndBuyTicketAreShown() throws Exception {
+        var board = new RailsPanel.Board(List.of(new TrainLines.Departure("red", 42, "Farm"), new TrainLines.Departure("blue", 7, "Mine")),
+                true, "$5.00", "$50.00", 0);
+        JsonObject doc = write(withBoard(board), "en");
+        assertTrue(PanelTesting.ids(doc).containsAll(List.of("departures", "ticket", "buy-ticket")), doc.toString());
+        String text = doc.toString();
+        assertTrue(text.contains("Next departures") && text.contains("red: in 42s → Farm") && text.contains("blue: in 7s → Mine"), text);
+        assertTrue(text.contains("$5.00") && text.contains("none ($50.00 for 24 hours)"), text);
+        assertTrue(PanelTesting.find(doc, "buy-ticket").getAsJsonObject("confirm").toString().contains("$50.00"), text);
+    }
+
+    @Test void givenNoLinesOrNoTickets_whenRendered_thenOnlyTheirPartIsShown() throws Exception {
+        JsonObject linesOnly = write(withBoard(new RailsPanel.Board(List.of(), false, null, "-", 0)), "en");
+        assertNotNull(PanelTesting.find(linesOnly, "departures"));
+        assertTrue(linesOnly.toString().contains("No scheduled lines serve this station."));
+        assertNull(PanelTesting.find(linesOnly, "buy-ticket"));
+        JsonObject ticketsOnly = write(withBoard(new RailsPanel.Board(null, true, null, "$50.00", 3)), "en");
+        assertNull(PanelTesting.find(ticketsOnly, "departures"));
+        assertTrue(ticketsOnly.toString().contains("free") && ticketsOnly.toString().contains("valid for 3 more hour(s)"));
+        assertNull(PanelTesting.find(write(withBoard(null), "en"), "ticket"));
+    }
+
+    @Test void givenSevenLanguages_whenBoardRendered_thenTextsAreTranslatedAndTheButtonFits() throws Exception {
+        var board = new RailsPanel.Board(List.of(new TrainLines.Departure("red", 42, "Farm")), true, "5", "50", 0);
+        for (String code : List.of("en", "de", "fr", "it", "pt_br", "ru", "zh_cn")) {
+            JsonObject doc = write(withBoard(board), code);
+            assertFalse(doc.toString().contains("panel-") || doc.toString().contains("line-departure"), code + doc);
+            String label = PanelTesting.plain(PanelTesting.find(doc, "buy-ticket").get("label"));
+            assertTrue(label.length() <= 14, code + " " + label);
+        }
+    }
+
+    @Test void givenTicketsAllowed_whenBuyClicked_thenTheTicketCommandBuys() throws Exception {
+        Fixture f = new Fixture(false);
+        when(f.player.hasPermission("vystormrails.ticket")).thenReturn(true);
+        when(f.plugin.board(f.player, "Central")).thenReturn(new RailsPanel.Board(null, true, null, "50", 0));
+        var snapshot = f.panel.overview(f.player);
+        assertNotNull(snapshot.board());
+        assertTrue(f.panel.act(f.player, snapshot, "ticket", null).success());
+        verify(f.plugin).ticket(f.player, true);
+        when(f.player.hasPermission("vystormrails.ticket")).thenReturn(false);
+        assertFalse(f.panel.act(f.player, snapshot, "ticket", null).success());
+        verify(f.plugin, times(1)).ticket(f.player, true);
+    }
+
     @Test void givenLiveFavorite_whenSelectedOrRemoved_thenExistingServicesAreUsed() throws Exception {
         Fixture f = new Fixture(true);
         var snapshot = f.panel.overview(f.player);

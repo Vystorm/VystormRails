@@ -25,7 +25,19 @@ final class RailsPanel {
     record Cell(int slot, int x, int z, Material icon, String station, boolean you) {}
     record Overview(UUID owner, UUID world, boolean favorites, String destination, int stationCount, int rails,
                     List<Station> rows, String selected, int page, int pages, String query, Ui.Sort sort,
-                    List<Cell> cells, int scale, String tab) {}
+                    List<Cell> cells, int scale, String tab, Board board) {
+        Overview(UUID owner, UUID world, boolean favorites, String destination, int stationCount, int rails,
+                 List<Station> rows, String selected, int page, int pages, String query, Ui.Sort sort,
+                 List<Cell> cells, int scale, String tab) {
+            this(owner, world, favorites, destination, stationCount, rails, rows, selected, page, pages, query, sort, cells, scale, tab, null);
+        }
+    }
+    /**
+     * The selected station's departures and ticket (1.23.0). {@code departures} is null when scheduled lines are off;
+     * {@code tickets} is false when fares are off or the player may not buy tickets; {@code fare} is null when the
+     * station is free; {@code ticketHours} is 0 without a valid day ticket.
+     */
+    record Board(List<TrainLines.Departure> departures, boolean tickets, String fare, String ticketPrice, long ticketHours) {}
 
     interface Actions {
         Result change(Player player, Overview snapshot, String operation, Object value);
@@ -120,8 +132,10 @@ final class RailsPanel {
                 cells.add(new Cell(r * 8 + c, x + scale / 2, z + scale / 2, icon, name, you));
             }
         }
+        String chosenName = page.stream().filter(row -> row.key().equals(selected.get(id)) && row.known()).map(Station::name).findFirst().orElse(null);
         return new Overview(id, view.world, favorites, plugin.destination(player), network.stations().size(), network.size(),
-                page, selected.get(id), view.page, pages, view.query, view.sort, List.copyOf(cells), scale, view.tab);
+                page, selected.get(id), view.page, pages, view.query, view.sort, List.copyOf(cells), scale, view.tab,
+                chosenName == null ? null : plugin.board(player, chosenName));
     }
 
     private static String key(String name) { return UUID.nameUUIDFromBytes(name.getBytes(StandardCharsets.UTF_8)).toString(); }
@@ -170,6 +184,10 @@ final class RailsPanel {
                 plugin.setDestination(player, station.name());
             }
             case "clear" -> plugin.setDestination(player, null);
+            case "ticket" -> {
+                if (snapshot.board() == null || !snapshot.board().tickets() || !player.hasPermission("vystormrails.ticket")) return missing(player);
+                plugin.ticket(player, true);
+            }
             case "zoom" -> {
                 int index = Integer.parseInt((String) value);
                 if (index < 0 || index >= NetworkMenu.SCALES.length) return missing(player);
@@ -213,6 +231,7 @@ final class RailsPanel {
                         .row(ctx.text("panel-distance"), ctx.text("map-distance", "distance", chosen.distance()))
                         .row(ctx.text("panel-location"), chosen.x() + ", " + chosen.y() + ", " + chosen.z()));
                 if (chosen.name().equalsIgnoreCase(o.destination())) detail.child(Ui.badge(ctx.text("map-station-dest")).color("accent"));
+                if (o.board() != null) board(ctx, o, actions, detail);
             } else detail.child(Ui.text(ctx.text("favorites-missing")));
             detail.child(Ui.button("destination").label(ctx.text("panel-destination")).icon(Ui.item(Material.MINECART)).primary()
                     .disabled(!chosen.known()).onClick(a -> change(a, o, actions, "destination", chosen.name())));
@@ -242,6 +261,27 @@ final class RailsPanel {
                         .onClick(a -> change(a, o, actions, "refresh", null)),
                 Ui.button("clear").label(ctx.text("panel-clear")).icon(Ui.item(Material.BARRIER)).disabled(o.destination() == null)
                         .onClick(a -> change(a, o, actions, "clear", null)));
+    }
+
+    /** Next departures and the day ticket of the selected station (1.23.0; before only /rails departures and /rails ticket buy). */
+    private static void board(PanelContext ctx, Overview o, Actions actions, Ui.Box detail) {
+        Board b = o.board();
+        if (b.departures() != null) {
+            Ui.Box list = Ui.col().gap(2).id("departures").child(Ui.heading(ctx.text("panel-departures")).level(3));
+            if (b.departures().isEmpty()) list.child(Ui.text(ctx.text("line-board-empty")).style(Ui.TextStyle.MUTED));
+            for (TrainLines.Departure d : b.departures())
+                list.child(Ui.text(ctx.text("line-departure", "line", d.line(), "seconds", Long.toString(d.seconds()), "next", d.next())));
+            detail.child(list);
+        }
+        if (!b.tickets()) return;
+        detail.child(Ui.kv().id("ticket")
+                .row(ctx.text("panel-fare"), b.fare() == null ? ctx.text("panel-fare-free") : b.fare())
+                .row(ctx.text("panel-ticket"), b.ticketHours() > 0 ? ctx.text("panel-ticket-valid", "hours", b.ticketHours())
+                        : ctx.text("panel-ticket-none", "price", b.ticketPrice())));
+        detail.child(Ui.button("buy-ticket").label(ctx.text("panel-buy-ticket")).icon(Ui.item(Material.PAPER))
+                .tooltip(ctx.text("panel-buy-ticket-confirm", "price", b.ticketPrice()))
+                .confirm(ctx.text("panel-buy-ticket"), ctx.text("panel-buy-ticket-confirm", "price", b.ticketPrice()))
+                .onClick(a -> change(a, o, actions, "ticket", null)));
     }
 
     private static Ui.Box map(PanelContext ctx, Overview o, Actions actions) {

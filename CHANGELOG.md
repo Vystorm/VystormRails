@@ -1,3 +1,10 @@
+## 1.23.0 — 2026-11-27
+
+- The Rails menu shows the next departures and the day ticket of the selected station. Pick a station in `/rails` (Stations tab, or the favorites): below its distance and coordinates are the next departures of every scheduled line that stops there (line, seconds until it leaves, next stop), the fare at that station and whether your day ticket is still valid, and a **Buy ticket** button that asks first and names the price. Until now this was only `/rails departures [station]` and `/rails ticket buy`.
+- In the chest map (Spigot, Paper 1.20.6, screens off) a right-click on a station opens a small station chest with the same departures and the ticket button (click it twice to buy). A left-click still makes the station your destination.
+- The departures appear only while scheduled lines are on, the ticket part only while fares are on and for players with `vystormrails.ticket`. Buying runs the same code as `/rails ticket buy`, with the same messages. Both commands stay. Texts in all seven languages.
+- Still requires Vystorm Core 0.65.0 or newer.
+
 ## 1.22.0 — 2026-11-22
 
 - Rankings for boards: with Vystorm Core 0.67.0 or newer and Vystorm Boards 1.21.0 or newer, a board can show the players who rode the farthest by minecart (`rails:distance`, shown as `850 m` or `1.25 km`) and the players with the most cart rides (`rails:trips`, rides of at least 16 blocks), for example `{type: top, source: "rails:distance", rows: 10}` with a `text` element above it as the heading. Both list offline players too and never show where anyone rode.

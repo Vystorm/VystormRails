@@ -158,12 +158,21 @@ final class TrainLines implements Listener {
         Network.Station station = stationName == null || stationName.isBlank() ? plugin.nearestStation(player) : plugin.favoriteStation(player, stationName);
         if (station == null) { plugin.lang().send(player, "line-missing"); return; }
         plugin.lang().send(player, "line-board", "station", station.name());
-        long now = System.currentTimeMillis(); int shown = 0;
-        for (TrainLine line : store.all(player.getWorld().getUID())) for (int index = 0; index < line.stops().size(); index++) {
-            if (!line.stops().get(index).station().equalsIgnoreCase(station.name())) continue;
-            plugin.lang().send(player, "line-departure", "line", line.id(), "seconds", Long.toString((line.departure(index, now) - now + 999) / 1000),
-                    "next", line.stops().get(line.next(index)).station()); shown++;
+        List<Departure> board = board(player.getWorld().getUID(), station.name(), System.currentTimeMillis());
+        for (Departure d : board) plugin.lang().send(player, "line-departure", "line", d.line(), "seconds", Long.toString(d.seconds()), "next", d.next());
+        if (board.isEmpty()) plugin.lang().send(player, "line-board-empty");
+    }
+
+    /** One departure of {@link #departures}: line id, seconds until it leaves, the next stop. */
+    record Departure(String line, long seconds, String next) {}
+
+    /** The departures board of a station in line order, as {@code /rails departures} prints it (1.23.0: also the panel). */
+    List<Departure> board(java.util.UUID world, String station, long now) {
+        List<Departure> out = new java.util.ArrayList<>();
+        for (TrainLine line : store.all(world)) for (int index = 0; index < line.stops().size(); index++) {
+            if (!line.stops().get(index).station().equalsIgnoreCase(station)) continue;
+            out.add(new Departure(line.id(), (line.departure(index, now) - now + 999) / 1000, line.stops().get(line.next(index)).station()));
         }
-        if (shown == 0) plugin.lang().send(player, "line-board-empty");
+        return out;
     }
 }

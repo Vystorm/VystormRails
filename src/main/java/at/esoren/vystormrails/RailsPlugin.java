@@ -141,6 +141,7 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         handleBlockEvents(core.priority().stages());
         getServer().getPluginManager().registerEvents(new NetworkMenu.Clicks(this), this);
+        getServer().getPluginManager().registerEvents(new StationMenu.Clicks(this), this);
         if (!registerPanels()) try {
             core.gui().registerMenu(this, "network", lang.ref("menu-rails"), org.bukkit.Material.MINECART,
                     p -> RailSwitches.on(getConfig(), RailSwitches.MAP) && p.hasPermission("vystormrails.use"), this::openNetwork,
@@ -641,6 +642,24 @@ public final class RailsPlugin extends JavaPlugin implements Listener {
     }
 
     private double dayTicketPrice() { double p = getConfig().getDouble("fares.day-ticket", 50); return Double.isFinite(p) ? Math.max(0, p) : 50; }
+
+    /**
+     * What the station view of the panel and the station chest show (1.23.0): the departures when scheduled lines are
+     * on, the fare and the day ticket when fares are on and the player may buy tickets. Null when there is nothing.
+     */
+    RailsPanel.Board board(Player player, String station) {
+        List<TrainLines.Departure> departures = lines != null && RailSwitches.on(getConfig(), RailSwitches.LINES)
+                ? lines.board(player.getWorld().getUID(), station, System.currentTimeMillis()) : null;
+        boolean tickets = faresEnabled() && player.hasPermission("vystormrails.ticket");
+        if (departures == null && !tickets) return null;
+        var economy = economy();
+        double fare = tickets ? fares.fare(station) : 0;
+        long now = System.currentTimeMillis(), until = tickets ? fares.ticket(player.getUniqueId(), now) : 0;
+        return new RailsPanel.Board(departures, tickets,
+                fare <= 0 ? null : economy == null ? String.valueOf(fare) : economy.format(fare),
+                economy == null ? "-" : economy.format(dayTicketPrice()),
+                until > 0 ? Math.max(1, (until - now + 3_599_999) / 3_600_000) : 0);
+    }
 
     /** {@code /rails ticket [buy]}: shows the day ticket or buys one. */
     void ticket(Player player, boolean buy) {
